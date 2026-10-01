@@ -54,6 +54,7 @@ export default function TabletContact() {
   const tabletRef = useRef<HTMLButtonElement>(null);
   const appRef = useRef<HTMLDivElement>(null);
   const returnFocus = useRef(false);
+  const pressedOutside = useRef(false);
 
   // Mide la tablet real y calcula cuánto hay que escalarla para que su pantalla cubra el viewport.
   const measure = (): Geometry | null => {
@@ -86,6 +87,10 @@ export default function TabletContact() {
     setGeometry(reducedMotion() ? null : measure());
     setPhase("appClosing");
   };
+
+  // Click en el fondo de la app (fuera de la ventana del formulario): vuelve al portfolio.
+  // Solo si el click empieza y acaba en el fondo, para no cerrar al soltar una selección de texto fuera.
+  const isBackground = (event: React.PointerEvent | React.MouseEvent) => event.target === event.currentTarget || (event.target as HTMLElement).classList.contains("tablet-app-body");
 
   const finish = () => {
     setPhase("idle");
@@ -161,6 +166,11 @@ export default function TabletContact() {
                 exit={{ opacity: 0, scale: 0.3, borderRadius: 60, transition: { duration: 0.3, ease: [0.4, 0, 1, 1] } }}
                 transition={appTransition}
                 onAnimationComplete={() => appRef.current?.focus({ preventScroll: true })}
+                onPointerDown={(event) => { pressedOutside.current = isBackground(event); }}
+                onClick={(event) => {
+                  if (pressedOutside.current && isBackground(event)) leave();
+                  pressedOutside.current = false;
+                }}
               >
                 <div className="tablet-app-status"><b>9:41</b><span>nueva-idea</span><span>●●● 87%</span></div>
                 <div className="tablet-app-body"><ContactForm /></div>

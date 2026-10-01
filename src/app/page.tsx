@@ -3,6 +3,7 @@
 import { AnimatePresence, MotionConfig, motion, type Transition } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import ArrowUpRight from "./ArrowUpRight";
+import IdeaPad from "./IdeaPad";
 import ProjectsBoard from "./ProjectsBoard";
 import TabletContact from "./TabletContact";
 
@@ -250,7 +251,7 @@ export default function Home() {
         <ProjectsBoard />
       </section>
 
-      <section className="concept section-shell"><div className="concept-stamp">IDEA<br />EN<br />PAUSA</div><div><div className="section-marker">03 / IDEAS Y CONCEPTOS</div><h2>SuperFinder</h2><p>Una app colaborativa, estilo Waze, para encontrar productos en supermercados gracias a las ubicaciones compartidas por la comunidad.</p><span className="concept-label">concepto de hackathon · todavía no implementado</span></div><span className="concept-arrow"><ArrowUpRight /></span></section>
+      <section className="concept section-shell"><IdeaPad><div className="concept-copy"><div className="section-marker">03 / IDEAS Y CONCEPTOS</div><h2>Cosas que se<br /><em>están cocinando.</em></h2><p>Ideas que todavía no son proyecto, pero no dejan de dar vueltas. Arranca las hojas del taco para verlas.</p><div className="concept-stamp">EN EL<br />HORNO</div></div></IdeaPad></section>
 
       <section className="skills section-shell"><div className="section-marker">04 / MI CAJA DE HERRAMIENTAS</div><div className="skills-grid"><div><h2>Las herramientas<br /><em>son el medio.</em></h2><p className="skills-intro">Un stack que crece conmigo: de la interfaz a los datos, pasando por la infraestructura que hace que todo aguante.</p></div><div className="skill-groups"><div className="skill-group"><span className="skill-group-label">Frontend</span><div className="skill-cloud"><span className="skill-pill large blue-pill">HTML · CSS</span><span className="skill-pill coral-pill">JavaScript</span><span className="skill-pill green-pill">React</span><span className="skill-pill yellow-pill">Next.js</span><span className="skill-pill pink-pill">TypeScript</span><span className="skill-pill outline-pill">Tailwind CSS</span></div></div><div className="skill-group"><span className="skill-group-label">Backend + datos</span><div className="skill-cloud"><span className="skill-pill coral-pill">Node.js</span><span className="skill-pill green-pill">Express.js</span><span className="skill-pill outline-pill">PostgreSQL</span><span className="skill-pill yellow-pill">MongoDB</span><span className="skill-pill outline-pill">MySQL</span></div></div><div className="skill-group"><span className="skill-group-label">Ecosistema</span><div className="skill-cloud"><span className="skill-pill small-pill">Git</span><span className="skill-pill outline-pill">Supabase</span><span className="skill-pill blue-pill">AWS · VPC · EC2</span><span className="skill-pill outline-pill">Load Balancers · Auto Scaling</span><span className="skill-pill coral-pill">VS Code</span><span className="skill-pill yellow-pill">Eclipse</span><span className="skill-pill outline-pill">Visual Studio Community · Windows/iOS</span><span className="skill-pill green-pill">Inglés B1</span></div></div></div></div></section>
 

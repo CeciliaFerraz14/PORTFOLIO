@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import ArrowUpRight from "./ArrowUpRight";
 
-type Shot = { src: string; alt: string; width: number; height: number; label: string };
+export type Shot = { src: string; alt: string; width: number; height: number; label: string };
 
 export type Project = {
   id: string;
@@ -20,6 +20,8 @@ export type Project = {
   built: string[];
   shots: Shot[];
   link?: { href: string; label: string };
+  // Para las apps que se pueden probar desde el navegador (PWA)
+  tryIt?: { href: string; label: string; note: string; install: { platform: string; steps: string[] }[] };
 };
 
 export const projects: Project[] = [
@@ -120,39 +122,61 @@ export const projects: Project[] = [
     status: { label: "En desarrollo" },
     color: "green",
     summary: "Organizar las tareas de casa en equipo, sin que todo dependa de una sola persona.",
-    tags: ["React Native", "Producto"],
-    visual: <div className="project-visual homi-visual"><span className="homi-phone"><Image src="/imagenes/homi/homi-movil.png" alt="Pantalla de inicio de HOMI con los botones Iniciar sesión y Crear cuenta" width={416} height={816} sizes="130px" /></span><span className="homi-screen hs-inicio"><Image src="/imagenes/homi/homi-inicio.jpg" alt="Inicio de HOMI con el hogar principal y los accesos rápidos" width={400} height={870} sizes="96px" /></span><span className="homi-screen hs-tareas"><Image src="/imagenes/homi/homi-tareas.jpg" alt="Lista de tareas de la semana en HOMI" width={400} height={870} sizes="96px" /></span><span className="homi-screen hs-hogares"><Image src="/imagenes/homi/homi-hogares.jpg" alt="Listado de hogares con el hogar principal marcado" width={400} height={870} sizes="96px" /></span><span className="cs-window homi-chat"><span className="cs-bar"><i /><i /><i /><em>/chat</em></span><Image src="/imagenes/homi/homi-chat.jpg" alt="Chat del hogar en HOMI" width={400} height={452} sizes="130px" /></span></div>,
+    tags: ["React Native", "PWA", "Vercel"],
+    visual: <div className="project-visual homi-visual"><span className="homi-phone"><Image src="/imagenes/homi/homi-app-portada.jpg" alt="Pantalla de carga de HOMI con la casita y el logo" width={600} height={1231} sizes="(max-width: 760px) 27vw, 140px" /></span><span className="homi-screen hs-inicio"><Image src="/imagenes/homi/homi-app-inicio.jpg" alt="Inicio de HOMI con las tareas para hoy y el resumen del hogar" width={600} height={1212} sizes="(max-width: 760px) 25vw, 130px" /></span><span className="homi-screen hs-tareas"><Image src="/imagenes/homi/homi-app-tareas.jpg" alt="Tareas de HOMI con el calendario del mes" width={600} height={1176} sizes="(max-width: 760px) 25vw, 130px" /></span><span className="homi-screen hs-ajustes"><Image src="/imagenes/homi/homi-app-perfil-ajustes.jpg" alt="Ajustes de HOMI con el perfil y las notificaciones" width={600} height={1170} sizes="(max-width: 760px) 25vw, 130px" /></span></div>,
     problem: "En muchas casas las tareas acaban recayendo siempre en la misma persona.",
     built: [
       "App móvil desarrollada con React Native.",
+      "Inicio con las tareas del día y un resumen de cada hogar: tareas, lista de la compra y chat.",
       "Varios hogares por cuenta, con uno marcado como principal.",
-      "Lista de tareas de la semana para repartir el trabajo.",
+      "Cada hogar tiene sus miembros con roles y sus módulos: tareas, lista de compra, chat, hucha y mascotas.",
+      "Gestión del hogar: invitar a alguien, gestionar miembros, cambiar la foto y el nombre.",
+      "Calendario de tareas con vista de hoy, semana y mes.",
       "Chat del hogar para coordinarse sin salir de la app.",
+      "Notificaciones configurables para el chat, las tareas, la compra y los gastos de la hucha.",
+      "Adaptada como PWA y desplegada en Vercel: se puede usar desde el navegador o instalar como una app más.",
     ],
     shots: [
-      { src: "/imagenes/homi/homi-inicio.jpg", alt: "Inicio de HOMI con el hogar principal y los accesos rápidos", width: 400, height: 870, label: "inicio" },
-      { src: "/imagenes/homi/homi-tareas.jpg", alt: "Lista de tareas de la semana en HOMI", width: 400, height: 870, label: "tareas" },
-      { src: "/imagenes/homi/homi-hogares.jpg", alt: "Listado de hogares con el hogar principal marcado", width: 400, height: 870, label: "hogares" },
-      { src: "/imagenes/homi/homi-chat.jpg", alt: "Chat del hogar en HOMI", width: 400, height: 452, label: "/chat" },
+      { src: "/imagenes/homi/homi-app-inicio.jpg", alt: "Inicio de HOMI con las tareas para hoy y el resumen del hogar", width: 600, height: 1212, label: "inicio" },
+      { src: "/imagenes/homi/homi-app-tareas.jpg", alt: "Tareas de HOMI con el calendario del mes", width: 600, height: 1176, label: "tareas" },
+      { src: "/imagenes/homi/homi-app-hogar-miembros.jpg", alt: "Página de un hogar en HOMI con sus miembros y los módulos de tareas, lista de compra, chat, hucha y mascotas", width: 600, height: 1212, label: "hogar" },
+      { src: "/imagenes/homi/homi-app-hogar-menu.jpg", alt: "Opciones del hogar en HOMI: hogar principal, cambiar foto, editar nombre, gestionar miembros, invitar y eliminar", width: 600, height: 1212, label: "opciones del hogar" },
+      { src: "/imagenes/homi/homi-app-perfil-ajustes.jpg", alt: "Ajustes de HOMI con el perfil y las notificaciones", width: 600, height: 1170, label: "ajustes" },
     ],
+    tryIt: {
+      href: "https://tareas-hogar-snowy.vercel.app/welcome",
+      label: "Abrir HOMI",
+      note: "Es una PWA: funciona directamente en el navegador y, si quieres, la puedes instalar en tu móvil como una app más.",
+      install: [
+        { platform: "iPhone / iPad", steps: ["Abre el enlace en Safari.", "Toca el botón Compartir (el cuadrado con la flecha hacia arriba).", "Elige «Añadir a pantalla de inicio» y confirma con «Añadir»."] },
+        { platform: "Android", steps: ["Abre el enlace en Chrome.", "Toca el menú ⋮ de arriba a la derecha.", "Elige «Instalar app» (o «Añadir a pantalla de inicio») y confirma."] },
+        { platform: "Ordenador", steps: ["Abre el enlace en Chrome o Edge.", "Pulsa el icono de instalar a la derecha de la barra de direcciones.", "Confirma con «Instalar»: se abrirá en su propia ventana."] },
+      ],
+    },
   },
   {
-    id: "spotifake",
+    id: "belsue",
     number: "06",
-    title: "SpotiFake",
-    status: { label: "Construido" },
+    title: "Belsué Seguros",
+    status: { label: "En producción", tone: "live" },
     color: "yellow",
-    summary: "Una plataforma musical para explorar el stack completo de un producto moderno.",
-    tags: ["Next.js", "Supabase", "TypeScript"],
-    visual: <div className="project-visual spotify-visual"><span>SPOTI</span><strong>FAKE</strong><i>PLAYLISTS FOR REAL LIFE</i><span className="cs-window sf-window"><span className="cs-bar"><i /><i /><i /><em>spotifake · inicio</em></span><Image src="/imagenes/spotifake/spotifake-inicio.jpg" alt="Inicio de SpotiFake con las portadas de los álbumes girando en círculos alrededor del logo" width={1400} height={727} sizes="(max-width: 760px) 60vw, 340px" /></span></div>,
-    problem: "Quería practicar el stack completo de un producto moderno con algo que me apeteciera usar a diario.",
+    summary: "Web corporativa de la correduría: seguros y servicios, teléfonos de asistencia de cada compañía, blog de noticias y formulario de contacto.",
+    tags: ["Web corporativa", "Responsive", "Buscador", "Formulario"],
+    visual: <div className="project-visual belsue-visual"><span className="cs-window bs-window-back"><span className="cs-bar"><i /><i /><i /><em>belsue.es</em></span><Image src="/imagenes/belsue/belsue-inicio.png" alt="Portada de Belsué: En Belsué, cuidamos de ti" width={1899} height={957} sizes="(max-width: 760px) 65vw, 330px" /></span><span className="cs-window bs-window-front"><span className="cs-bar"><i /><i /><i /><em>/contacto</em></span><Image src="/imagenes/belsue/belsue-contacto.png" alt="Página de contacto de Belsué con los datos de atención y el formulario" width={1392} height={922} sizes="(max-width: 760px) 60vw, 300px" /></span><span className="bs-phone"><Image src="/imagenes/belsue/belsue-blog-movil.png" alt="Blog de Belsué en el móvil con el buscador y los filtros por categoría" width={400} height={857} sizes="120px" /></span><a className="bib-link" href="https://belsue.es" target="_blank" rel="noreferrer">belsue.es <b><ArrowUpRight /></b></a></div>,
+    problem: "La correduría necesitaba una web que explicara sus seguros con claridad y en la que un cliente encontrara rápido el teléfono de asistencia de su compañía o una forma de contactar.",
     built: [
-      "Plataforma musical construida con Next.js y TypeScript.",
-      "Backend y datos con Supabase.",
-      "Un inicio con las portadas de los álbumes girando alrededor del logo.",
+      "Portada con los datos clave de la correduría y accesos directos a asesoramiento y asistencia.",
+      "Directorio de compañías aseguradoras con buscador y sus teléfonos de asistencia.",
+      "Blog de noticias con buscador y filtros por categoría.",
+      "Formulario de contacto con validación de los datos del cliente.",
+      "Diseño adaptado a móvil.",
     ],
     shots: [
-      { src: "/imagenes/spotifake/spotifake-inicio.jpg", alt: "Inicio de SpotiFake con las portadas de los álbumes girando en círculos alrededor del logo", width: 1400, height: 727, label: "spotifake · inicio" },
+      { src: "/imagenes/belsue/belsue-inicio.png", alt: "Portada de Belsué: En Belsué, cuidamos de ti", width: 1899, height: 957, label: "belsue.es" },
+      { src: "/imagenes/belsue/belsue-companias.png", alt: "Directorio de compañías aseguradoras con buscador y teléfono de asistencia", width: 1572, height: 987, label: "/companias" },
+      { src: "/imagenes/belsue/belsue-contacto.png", alt: "Página de contacto de Belsué con los datos de atención y el formulario", width: 1392, height: 922, label: "/contacto" },
+      { src: "/imagenes/belsue/belsue-blog-movil.png", alt: "Blog de Belsué en el móvil con el buscador y los filtros por categoría", width: 400, height: 857, label: "blog · móvil" },
     ],
+    link: { href: "https://belsue.es", label: "belsue.es" },
   },
 ];
