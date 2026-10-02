@@ -4,6 +4,7 @@ import { AnimatePresence, MotionConfig, motion, type Transition } from "motion/r
 import { useEffect, useRef, useState } from "react";
 import ArrowUpRight from "./ArrowUpRight";
 import IdeaPad from "./IdeaPad";
+import { JukeboxLogo, JukeboxMark, JukeboxMarkSmall } from "./JukeboxLogo";
 import ProjectsBoard from "./ProjectsBoard";
 import TabletContact from "./TabletContact";
 
@@ -74,7 +75,6 @@ export default function Home() {
   }, [loaderPhase]);
 
   const loaderPercent = Math.round(loaderProgress);
-  const loaderStatus = loaderPercent < 30 ? "abriendo carpetas…" : loaderPercent < 60 ? "pegando post-its…" : loaderPercent < 95 ? "afilando el subrayado…" : "¡listo!";
   const transitionRef = useRef(projectsTransition);
 
   useEffect(() => {
@@ -211,17 +211,19 @@ export default function Home() {
     <MotionConfig reducedMotion="user">
     <main className={loaderPhase === "loading" ? "is-loading" : undefined}>
       {loaderPhase !== "done" && <><div className={`site-loader is-${loaderPhase}`} suppressHydrationWarning role="progressbar" aria-label="Cargando portfolio" aria-valuemin={0} aria-valuemax={100} aria-valuenow={loaderPercent}>
-        <div className="loader-inner">
-          <span className="loader-kicker">00 / cargando</span>
-          <strong className="loader-title">Preparando el entorno...<br />
-          </strong>
-          <div className="loader-bar"><span style={{ width: `${loaderProgress}%` }} /></div>
-          <div className="loader-meta"><span>{loaderStatus}</span><b>{loaderPercent}%</b></div>
+        <div className="loader-window">
+          <div className="loader-titlebar"><span>jukebox.exe</span><span className="loader-controls" aria-hidden="true"><i className="ctl-min" /><i className="ctl-max" /><i>x</i></span></div>
+          <div className="loader-body">
+            <JukeboxMark size={150} className="loader-mark" title="Jukeboxdev" />
+            <span className="jukebox-logo loader-logo"><span className="jukebox-logo-word">JUKEBOX</span><span className="jukebox-logo-badge">dev</span></span>
+            <div className="loader-bar" aria-hidden="true">{Array.from({ length: 8 }, (_, i) => <span key={i} className={loaderProgress >= (i + 1) * 12.5 ? "is-on" : undefined} />)}</div>
+            <div className="loader-meta">cargando proyectos... {loaderPercent}%</div>
+          </div>
         </div>
       </div>
       <script dangerouslySetInnerHTML={{ __html: `try{if(sessionStorage.getItem("loader-seen")==="1"||matchMedia("(prefers-reduced-motion: reduce)").matches)document.currentScript.previousElementSibling.style.display="none"}catch(e){}` }} /></>}
       <nav className="site-nav" aria-label="Navegación principal">
-        
+        <a className="brand" href="#top" aria-label="Jukeboxdev · inicio"><JukeboxLogo /></a>
         <div className="nav-links">
           <a href="#sobre-mi" onClick={(event) => { event.preventDefault(); openAbout(); }}>Sobre mí</a>
           <a href="#proyectos">Proyectos</a>
@@ -257,7 +259,7 @@ export default function Home() {
 
       <section className="contact section-shell" id="contacto"><div className="contact-copy"><div className="section-marker">05 / CONTACTO</div><h2>¿Tienes una idea<br />dando vueltas?</h2><p>Me encantan los problemas concretos, las conversaciones con café y las ideas que todavía no tienen nombre.</p><div className="contact-links"><a href="mailto:hola@ceci.dev"><span>✉</span> hola@ceci.dev <b><ArrowUpRight /></b></a><a href="https://www.linkedin.com" target="_blank" rel="noreferrer"><span>in</span> LinkedIn <b><ArrowUpRight /></b></a><a href="https://github.com" target="_blank" rel="noreferrer"><span>⌘</span> GitHub <b><ArrowUpRight /></b></a></div></div><TabletContact /></section>
 
-      <footer><span>Hecho con curiosidad y demasiadas pestañas abiertas.</span><span>© 2026 Ceci</span></footer>
+      <footer><span>Hecho con curiosidad y demasiadas pestañas abiertas.</span><span className="footer-brand"><JukeboxMarkSmall size={14} /> jukeboxdev · © 2026 Ceci</span></footer>
       {projectsTransition !== "idle" && <div className={`page-wipe is-${projectsTransition}`} aria-hidden="true">{projectsTransition === "revealing" ? pleatColors.map((color, index) => <i className="pleat" key={index} style={{ background: `var(--${color})` }} />) : <><i /><i /><i /><i /></>}<span>02 / proyectos ↓</span></div>}
       <AnimatePresence onExitComplete={() => folderButtonRef.current?.focus({ preventScroll: true })}>{aboutOpen && <div key="about-modal" className="about-modal">
         <motion.div className="about-backdrop" onClick={closeAbout} initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.3 } }} exit={{ opacity: 0, transition: { duration: 0.25 } }} />

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Josefin_Sans, Space_Mono } from "next/font/google";
+import { DM_Sans, Fredoka, Josefin_Sans, Space_Mono } from "next/font/google";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -19,6 +19,13 @@ const josefinSans = Josefin_Sans({
   weight: ["400", "500", "600", "700"],
 });
 
+// Tipografía redondeada de la marca Jukeboxdev
+const fredoka = Fredoka({
+  variable: "--font-fredoka",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+});
+
 export const metadata: Metadata = {
   title: "Cecilia · Desarrollo con intención",
   description: "Portfolio de Cecilia Ferraz, estudiante de DAM y builder de herramientas digitales en Zaragoza.",
@@ -28,7 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${dmSans.variable} ${spaceMono.variable} ${josefinSans.variable} h-full antialiased`}
+      className={`${dmSans.variable} ${spaceMono.variable} ${josefinSans.variable} ${fredoka.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

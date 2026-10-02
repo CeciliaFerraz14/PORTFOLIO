@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { type CSSProperties, type PointerEvent, type ReactNode, useEffect, useRef, useState } from "react";
+import { JukeboxLogo } from "./JukeboxLogo";
 
 type Idea = { title: string; text: string; label: string; color: string };
 
@@ -229,6 +230,7 @@ function DeskItems() {
 function IdeaSheet({ idea, className = "", hidden = false }: { idea: Idea; className?: string; hidden?: boolean }) {
   return (
     <span className={`idea-sheet ${className}`} style={{ background: idea.color }} aria-hidden={hidden || undefined}>
+      <JukeboxLogo className="idea-sheet-logo" />
       <strong>{idea.title}</strong>
       <span className="idea-sheet-text">{idea.text}</span>
       <span className="idea-sheet-label">{idea.label}</span>

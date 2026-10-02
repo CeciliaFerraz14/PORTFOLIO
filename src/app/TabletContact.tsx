@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import ArrowUpRight from "./ArrowUpRight";
 import ContactForm from "./ContactForm";
+import { JukeboxMarkSmall } from "./JukeboxLogo";
 
 // Tablet del contacto: al tocarla, un clon de la tablet (fijo en pantalla) hace zoom hasta que su
 // pantalla cubre todo el viewport y, desde el icono central, se abre la "app" con el formulario.
@@ -38,7 +39,7 @@ function TabletFace() {
           </span>
         ))}
         <span className="tablet-main-app">
-          <span className="tablet-main-tile">✦</span>
+          <span className="tablet-main-tile"><JukeboxMarkSmall className="tablet-main-mark" /></span>
           <span className="tablet-main-label">nueva-idea</span>
           <span className="tablet-main-hint">toca para entrar <ArrowUpRight /></span>
         </span>

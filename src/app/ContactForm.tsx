@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
-const CONTACT_EMAIL = "hola@ceci.dev";
+import { sendContactMessage } from "./actions";
 
 const topics = [
   { id: "proyecto", label: "Un proyecto", color: "coral" },
@@ -15,26 +14,27 @@ export default function ContactForm() {
   const [topic, setTopic] = useState("proyecto");
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const name = String(data.get("name") ?? "");
-    const email = String(data.get("email") ?? "");
-    const topicLabel = topics.find((item) => item.id === topic)?.label ?? "";
-    const subject = `${topicLabel} · ${name}`;
-    const body = `${message}\n\n— ${name} (${email})`;
-
     setStatus("sending");
-    window.setTimeout(() => {
-      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      setStatus("sent");
-    }, 900);
+    setError("");
+    try {
+      const result = await sendContactMessage(data);
+      if (result.ok) return setStatus("sent");
+      setError(result.error);
+    } catch {
+      setError("No se ha podido enviar. Prueba otra vez en un rato.");
+    }
+    setStatus("idle");
   };
 
   const reset = () => {
     setStatus("idle");
     setMessage("");
+    setError("");
     setTopic("proyecto");
   };
 
@@ -47,7 +47,7 @@ export default function ContactForm() {
         <div className="contact-sent" role="status">
           <span className="contact-sent-stamp">✦</span>
           <h3>¡Idea en el buzón!</h3>
-          <p>Se ha abierto tu correo con el mensaje listo. Dale a enviar y te contesto pronto.</p>
+          <p>Me ha llegado tu mensaje. Te contesto pronto al correo que me has dejado.</p>
           <button type="button" className="contact-again" onClick={reset}>escribir otra ↺</button>
         </div>
       ) : (
@@ -71,6 +71,10 @@ export default function ContactForm() {
             <span>mensaje <small>{message.length}/800</small></span>
             <textarea name="message" required maxLength={800} rows={5} value={message} onChange={(event) => setMessage(event.target.value)} placeholder="Cuéntame la idea, aunque todavía no tenga nombre…" />
           </label>
+
+          <label className="contact-trap" aria-hidden="true">website<input name="website" type="text" tabIndex={-1} autoComplete="off" /></label>
+
+          {error && <p className="contact-error" role="alert">{error}</p>}
 
           <div className="contact-form-footer">
             <p>respondo en 24–48h <span aria-hidden="true">☕</span></p>
