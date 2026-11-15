@@ -8,6 +8,12 @@ import type { Shot } from "./projects";
 export default function ShotCarousel({ shots, title }: { shots: Shot[]; title: string }) {
   const [index, setIndex] = useState(0);
   const touchStart = useRef<number | null>(null);
+  const videos = useRef<(HTMLVideoElement | null)[]>([]);
+
+  // Al cambiar de diapositiva se pausa cualquier vídeo que se quede fuera de la vista.
+  useEffect(() => {
+    videos.current.forEach((video, videoIndex) => { if (video && videoIndex !== index) video.pause(); });
+  }, [index]);
   const multiple = shots.length > 1;
   const go = (next: number) => setIndex((next + shots.length) % shots.length);
 
@@ -22,7 +28,7 @@ export default function ShotCarousel({ shots, title }: { shots: Shot[]; title: s
   }, [multiple, shots.length]);
 
   return (
-    <div className="shot-carousel" role="group" aria-roledescription="carrusel" aria-label={`Capturas de ${title}`}>
+    <div className="shot-carousel" role="group" aria-roledescription="carrusel" aria-label={`Capturas y vídeo de ${title}`}>
       <div
         className="shot-carousel-viewport"
         onTouchStart={(event) => { touchStart.current = event.touches[0].clientX; }}
@@ -40,7 +46,9 @@ export default function ShotCarousel({ shots, title }: { shots: Shot[]; title: s
               <div key={shot.src} className="carousel-slide" aria-hidden={shotIndex !== index}>
                 <figure className="project-shot">
                   <span className="cs-bar"><i /><i /><i /><em>{shot.label}</em></span>
-                  <Image src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} sizes={wide ? "(max-width: 760px) 90vw, 520px" : "(max-width: 760px) 60vw, 300px"} />
+                  {shot.video
+                    ? <video ref={(element) => { videos.current[shotIndex] = element; }} src={shot.video} poster={shot.src} width={shot.width} height={shot.height} controls playsInline preload="metadata" aria-label={shot.alt} tabIndex={shotIndex === index ? undefined : -1} />
+                    : <Image src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} sizes={wide ? "(max-width: 760px) 90vw, 520px" : "(max-width: 760px) 60vw, 300px"} />}
                 </figure>
               </div>
             );
@@ -57,7 +65,7 @@ export default function ShotCarousel({ shots, title }: { shots: Shot[]; title: s
           <div className="carousel-thumbs">
             {shots.map((shot, shotIndex) => (
               <button key={shot.src} type="button" className={shotIndex === index ? "is-active" : ""} onClick={() => go(shotIndex)} aria-label={`Ver captura ${shotIndex + 1}: ${shot.label}`} aria-current={shotIndex === index}>
-                <Image src={shot.src} alt="" width={shot.width} height={shot.height} sizes="80px" />
+                <Image src={shot.src} alt="" width={shot.width} height={shot.height} sizes="80px" />{shot.video && <span className="thumb-play" aria-hidden="true">▶</span>}
               </button>
             ))}
           </div>

@@ -663,3 +663,12 @@ html, body { overflow-x: clip; }
   .hero { padding-top: 10px; }
   .hero-cta { margin-top: 18px; gap: 8px; }
 }
+.idea-sheet-title-img { align-self: flex-start; width: auto; max-width: 100%; height: 22cqh; object-fit: contain; margin-top: -4cqh; border: 2px solid var(--ink); }
+.idea-sheet:has(.idea-sheet-title-img) .idea-sheet-text { margin-top: 3cqh; }
+.idea-sheet:has(.idea-sheet-shot) .idea-sheet-label { position: absolute; top: 1.1cqh; left: 5cqw; margin: 0; padding: .4cqh 1.4cqh; }
+.idea-sheet-shot { position: absolute; right: 5cqw; bottom: 3.5cqh; width: 62cqw; padding: 1.4cqh 1.4cqh 3.6cqh; background: #fff; box-shadow: 2px 3px 0 rgba(25,50,74,.25); transform: rotate(3deg); }
+.idea-sheet-shot::before { content: ""; position: absolute; top: -2.2cqh; left: 50%; width: 12cqw; height: 4.4cqh; background: rgba(255,255,255,.6); border: 1px solid rgba(25,50,74,.12); transform: translateX(-50%) rotate(-5deg); }
+.idea-sheet-shot img { display: block; width: 100%; height: auto; aspect-ratio: 1110 / 592; }
+.project-shot video { display: block; width: auto; height: auto; max-width: 100%; max-height: calc(var(--shot-h) - 34px); background: var(--ink); }
+.carousel-thumbs button { position: relative; }
+.thumb-play { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(25,50,74,.35); color: var(--paper); font-size: 15px; }

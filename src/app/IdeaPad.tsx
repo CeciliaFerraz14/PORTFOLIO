@@ -2,13 +2,14 @@
 
 import { motion } from "motion/react";
 import { type CSSProperties, type PointerEvent, type ReactNode, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { JukeboxLogo } from "./JukeboxLogo";
 
-type Idea = { title: string; text: string; label: string; color: string };
+type Idea = { title: string; text: string; label: string; color: string; logo?: string; shot?: { src: string; alt: string } };
 
 // Añade aquí nuevas ideas: cada una es una hoja del taco.
 const ideas: Idea[] = [
-  { title: "SuperFinder", text: "Una app colaborativa, estilo Waze, para encontrar productos en supermercados gracias a las ubicaciones compartidas por la comunidad.", label: "concepto de hackathon · en pausa", color: "var(--yellow)" },
+  { title: "Pixel Springs", text: "Simulación en pixel art: montas negocios, gestionas recursos y haces crecer tu fortuna.", label: "videojuego · en curso", color: "var(--yellow)", logo: "/imagenes/pixelsprings/pixelsprings-logo.png", shot: { src: "/imagenes/pixelsprings/pixelsprings-juego.png", alt: "Partida de Pixel Springs: el avatar dentro de la gasolinera de Hank" } },
   { title: "La siguiente…", text: "Todavía se está cocinando. Vuelve en un tiempo y probablemente haya otra hoja aquí.", label: "en el horno", color: "var(--mint)" },
 ];
 
@@ -231,9 +232,10 @@ function IdeaSheet({ idea, className = "", hidden = false }: { idea: Idea; class
   return (
     <span className={`idea-sheet ${className}`} style={{ background: idea.color }} aria-hidden={hidden || undefined}>
       <JukeboxLogo className="idea-sheet-logo" />
-      <strong>{idea.title}</strong>
+      {idea.logo ? <Image className="idea-sheet-title-img" src={idea.logo} alt={idea.title} width={500} height={262} sizes="200px" /> : <strong>{idea.title}</strong>}
       <span className="idea-sheet-text">{idea.text}</span>
       <span className="idea-sheet-label">{idea.label}</span>
+      {idea.shot && <span className="idea-sheet-shot"><Image src={idea.shot.src} alt={idea.shot.alt} width={1110} height={592} sizes="220px" /></span>}
     </span>
   );
 }
