@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useSyncExternalStore } from "react";
 import {
   LOCALE_STORAGE_KEY,
   pickLocale,
@@ -15,6 +15,11 @@ type LanguageContextValue = {
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
+const listeners = new Set<() => void>();
+
+// The choice made in this visit; kept here so it works even when storage throws.
+let chosen: Locale | null = null;
+
 function safeLocalStorage(): Storage | undefined {
   try {
     return window.localStorage;
@@ -23,30 +28,38 @@ function safeLocalStorage(): Storage | undefined {
   }
 }
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  // Starts as "es" so the first client render matches the server HTML.
-  const [locale, setLocaleState] = useState<Locale>("es");
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
 
-  useEffect(() => {
-    // Browser-only values can only be read after hydration, so this one-time sync is intentional.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setLocaleState(
-      pickLocale(readStoredLocale(safeLocalStorage()), navigator.languages),
-    );
-  }, []);
+function getSnapshot(): Locale {
+  return chosen ?? pickLocale(readStoredLocale(safeLocalStorage()), navigator.languages);
+}
+
+// Matches the server HTML, so hydration never mismatches.
+function getServerSnapshot(): Locale {
+  return "es";
+}
+
+function setLocale(next: Locale) {
+  chosen = next;
+  try {
+    window.localStorage.setItem(LOCALE_STORAGE_KEY, next);
+  } catch {
+    // Storage unavailable: the choice only lasts for this visit.
+  }
+  listeners.forEach((listener) => listener());
+}
+
+export function LanguageProvider({ children }: { children: React.ReactNode }) {
+  const locale = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   useEffect(() => {
     document.documentElement.lang = locale;
   }, [locale]);
-
-  function setLocale(next: Locale) {
-    setLocaleState(next);
-    try {
-      window.localStorage.setItem(LOCALE_STORAGE_KEY, next);
-    } catch {
-      // Storage unavailable: the choice only lasts for this visit.
-    }
-  }
 
   return (
     <LanguageContext.Provider value={{ locale, setLocale }}>
