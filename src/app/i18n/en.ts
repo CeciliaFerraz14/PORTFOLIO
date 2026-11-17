@@ -18,7 +18,7 @@ export const en: Dictionary = {
     taglineLead: "I code solutions for",
     taglineEm: "real problems.",
     intro: "I'm Cecilia. I build tools, assistants and digital products with curiosity, good judgment and a pretty simple obsession: making things work and making work a little easier.",
-    idea: "Tell me an idea",
+    idea: "Got an idea? Tell me",
     marker: "01 / CONTEXT",
     openFolderLabel: "Open the About me folder",
     folderName: "about-me",

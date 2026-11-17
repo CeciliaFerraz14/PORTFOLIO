@@ -16,17 +16,21 @@ const pleatColors = ["coral", "yellow", "lilac", "mint"].flatMap((color) => Arra
 const aboutOpenTransition: Transition = { type: "spring", stiffness: 380, damping: 30, mass: 0.9 };
 const aboutCloseTransition: Transition = { type: "tween", duration: 0.28, ease: [0.4, 0, 1, 1] };
 
+// Pill tone maps to the .<tone>-pill classes in globals.css
+type Tone = "blue" | "coral" | "green" | "yellow" | "pink" | "outline" | "small";
+type Pill = [name: string, tone: Tone, large?: boolean];
+// Tech pills are not translated; "tones" groups take their texts from the dictionary.
+const skillGroups: ({ key: "frontend" | "backend" | "cloud"; skills: Pill[] } | { key: "ai" | "languages"; tones: Tone[] })[] = [
+  { key: "frontend", skills: [["HTML · CSS", "blue", true], ["JavaScript", "coral"], ["TypeScript", "pink"], ["React", "green"], ["Next.js", "yellow"], ["React Native", "outline"], ["Flutter", "blue"], ["Tailwind CSS", "outline"]] },
+  { key: "backend", skills: [["Java", "coral"], ["C#", "yellow"], ["ASP.NET MVC", "outline"], ["Node.js", "green"], ["Express.js", "outline"], ["SQL", "pink"], ["MySQL", "outline"], ["PostgreSQL", "blue"], ["MongoDB", "yellow"], ["Supabase", "outline"]] },
+  { key: "cloud", skills: [["AWS · VPC · EC2", "blue"], ["Load Balancers · Auto Scaling", "outline"], ["Vercel", "coral"], ["Microsoft 365", "outline"], ["WhatsApp Business API", "green"], ["Git", "small"], ["VS Code", "yellow"], ["Eclipse", "outline"], ["Visual Studio", "outline"]] },
+  { key: "ai", tones: ["pink", "yellow", "outline"] },
+  { key: "languages", tones: ["green", "blue", "outline"] },
+];
+
 export default function Home() {
   const { locale, setLocale, t } = useLanguage();
   const profileText = t.about.profile;
-  // Pill tone maps to the .<tone>-pill classes in globals.css
-  const skillGroups: { label: string; skills: [name: string, tone: "blue" | "coral" | "green" | "yellow" | "pink" | "outline" | "small", large?: boolean][] }[] = [
-    { label: t.skills.labels.frontend, skills: [["HTML · CSS", "blue", true], ["JavaScript", "coral"], ["TypeScript", "pink"], ["React", "green"], ["Next.js", "yellow"], ["React Native", "outline"], ["Flutter", "blue"], ["Tailwind CSS", "outline"]] },
-    { label: t.skills.labels.backend, skills: [["Java", "coral"], ["C#", "yellow"], ["ASP.NET MVC", "outline"], ["Node.js", "green"], ["Express.js", "outline"], ["SQL", "pink"], ["MySQL", "outline"], ["PostgreSQL", "blue"], ["MongoDB", "yellow"], ["Supabase", "outline"]] },
-    { label: t.skills.labels.cloud, skills: [["AWS · VPC · EC2", "blue"], ["Load Balancers · Auto Scaling", "outline"], ["Vercel", "coral"], ["Microsoft 365", "outline"], ["WhatsApp Business API", "green"], ["Git", "small"], ["VS Code", "yellow"], ["Eclipse", "outline"], ["Visual Studio", "outline"]] },
-    { label: t.skills.labels.ai, skills: [[t.skills.ai[0], "pink"], [t.skills.ai[1], "yellow"], [t.skills.ai[2], "outline"]] },
-    { label: t.skills.labels.languages, skills: [[t.skills.languages[0], "green"], [t.skills.languages[1], "blue"], [t.skills.languages[2], "outline"]] },
-  ];
   const [selectedFolder, setSelectedFolder] = useState("sobre-mi");
   const [aboutOpen, setAboutOpen] = useState(false);
   const [folderLaunching, setFolderLaunching] = useState(false);
@@ -251,7 +255,7 @@ export default function Home() {
 
       <section className="concept section-shell"><IdeaPad><div className="concept-copy"><div className="section-marker">{t.ideas.marker}</div><h2>{t.ideas.titleLead}<br /><em>{t.ideas.titleEm}</em></h2><p>{t.ideas.text}</p><div className="concept-stamp">{t.ideas.stampTop}<br />{t.ideas.stampBottom}</div></div></IdeaPad></section>
 
-      <section className="skills section-shell"><div className="section-marker">{t.skills.marker}</div><div className="skills-grid"><div><h2>{t.skills.titleLead}<br /><em>{t.skills.titleEm}</em></h2><p className="skills-intro">{t.skills.intro}</p></div><div className="skill-groups">{skillGroups.map((group) => <div className="skill-group" key={group.label}><span className="skill-group-label">{group.label}</span><div className="skill-cloud">{group.skills.map(([name, tone, large]) => <span className={`skill-pill ${tone}-pill${large ? " large" : ""}`} key={name}>{name}</span>)}</div></div>)}</div></div></section>
+      <section className="skills section-shell"><div className="section-marker">{t.skills.marker}</div><div className="skills-grid"><div><h2>{t.skills.titleLead}<br /><em>{t.skills.titleEm}</em></h2><p className="skills-intro">{t.skills.intro}</p></div><div className="skill-groups">{skillGroups.map((group) => <div className="skill-group" key={group.key}><span className="skill-group-label">{t.skills.labels[group.key]}</span><div className="skill-cloud">{("skills" in group ? group.skills : group.tones.map((tone, index): Pill => [t.skills[group.key][index], tone])).map(([name, tone, large]) => <span className={`skill-pill ${tone}-pill${large ? " large" : ""}`} key={name}>{name}</span>)}</div></div>)}</div></div></section>
 
       <section className="contact section-shell" id="contacto"><div className="contact-copy"><div className="section-marker">{t.contact.marker}</div><h2>{t.contact.titleLead}<br />{t.contact.titleTail}</h2><p>{t.contact.text}</p><div className="contact-links"><a href="mailto:ceciliaferrazfm@gmail.com"><span>✉</span> ceciliaferrazfm@gmail.com <b><ArrowUpRight /></b></a><a href="https://www.linkedin.com/in/cecilia-ferraz-fern%C3%A1ndez-31966b305/" target="_blank" rel="noreferrer"><span>in</span> LinkedIn <b><ArrowUpRight /></b></a></div></div><TabletContact /></section>
 
