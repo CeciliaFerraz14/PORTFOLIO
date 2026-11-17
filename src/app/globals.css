@@ -407,21 +407,21 @@ html, body { overflow-x: clip; }
 .is-loading .reveal-up, .is-loading .name-underline span, .is-loading .hero-cta .button::after, .is-loading .hero-cta .projects-launch span { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) { .site-loader { display: none; } }
 
-/* HOMI: móvil real con las notitas de tareas al lado */
-.homi-visual { background-image: radial-gradient(rgba(25,50,74,.16) 1px, transparent 1px); background-size: 16px 16px; }
-.homi-phone { position: absolute; z-index: 1; top: 14px; left: 3%; width: 23%; overflow: hidden; border: 3px solid var(--ink); border-radius: 18px; transform: rotate(-6deg); box-shadow: 6px 6px 0 var(--ink); transition: transform .45s cubic-bezier(.34,1.56,.64,1); }
-.homi-phone img { display: block; width: 100%; height: auto; }
-.homi-screen { position: absolute; top: 22px; width: 21%; border: 3px solid var(--ink); border-radius: 16px; overflow: hidden; background: var(--ink); box-shadow: 5px 5px 0 var(--ink); transition: transform .45s cubic-bezier(.34,1.56,.64,1); }
-.homi-screen img { display: block; width: 100%; height: auto; }
-.hs-inicio { left: 27%; transform: rotate(-3deg); }
-.hs-tareas { left: 51%; top: 34px; z-index: 1; transform: rotate(2deg); }
-.hs-ajustes { left: 75%; top: 20px; transform: rotate(5deg); }
-.project-card:hover .homi-phone { transform: rotate(-2deg) translateY(-12px); }
-.project-card:hover .hs-inicio { transform: rotate(-6deg) translate(-8px, -8px); }
-.project-card:hover .hs-tareas { transform: rotate(0deg) translateY(-14px); }
-.project-card:hover .hs-ajustes { transform: rotate(8deg) translate(6px, -8px); }
-@media (max-width: 760px) { .homi-phone { left: 1%; width: 27%; border-radius: 15px; }.homi-screen { width: 25%; border-radius: 13px; }.hs-inicio { left: 25%; }.hs-tareas { left: 49%; }.hs-ajustes { left: 73%; } }
-@media (prefers-reduced-motion: reduce) { .homi-phone, .homi-screen { transition: none; } }
+/* Phone fan: one tilted phone with three screens beside it (HOMI, Troko) */
+.phone-fan { background-image: radial-gradient(rgba(25,50,74,.16) 1px, transparent 1px); background-size: 16px 16px; }
+.fan-phone { position: absolute; z-index: 1; top: 14px; left: 3%; width: 23%; overflow: hidden; border: 3px solid var(--ink); border-radius: 18px; transform: rotate(-6deg); box-shadow: 6px 6px 0 var(--ink); transition: transform .45s cubic-bezier(.34,1.56,.64,1); }
+.fan-phone img { display: block; width: 100%; height: auto; }
+.fan-screen { position: absolute; top: 22px; width: 21%; border: 3px solid var(--ink); border-radius: 16px; overflow: hidden; background: var(--ink); box-shadow: 5px 5px 0 var(--ink); transition: transform .45s cubic-bezier(.34,1.56,.64,1); }
+.fan-screen img { display: block; width: 100%; height: auto; }
+.fan-1 { left: 27%; transform: rotate(-3deg); }
+.fan-2 { left: 51%; top: 34px; z-index: 1; transform: rotate(2deg); }
+.fan-3 { left: 75%; top: 20px; transform: rotate(5deg); }
+.project-card:hover .fan-phone { transform: rotate(-2deg) translateY(-12px); }
+.project-card:hover .fan-1 { transform: rotate(-6deg) translate(-8px, -8px); }
+.project-card:hover .fan-2 { transform: rotate(0deg) translateY(-14px); }
+.project-card:hover .fan-3 { transform: rotate(8deg) translate(6px, -8px); }
+@media (max-width: 760px) { .fan-phone { left: 1%; width: 27%; border-radius: 15px; }.fan-screen { width: 25%; border-radius: 13px; }.fan-1 { left: 25%; }.fan-2 { left: 49%; }.fan-3 { left: 73%; } }
+@media (prefers-reduced-motion: reduce) { .fan-phone, .fan-screen { transition: none; } }
 
 /* Explorador "Sobre mí" como ventana emergente con efecto genio */
 .about-modal { position: fixed; inset: 0; z-index: 150; display: grid; place-items: center; padding: 16px; }
