@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "node --test src/app/i18n/*.test.ts"
   },
   "dependencies": {
     "motion": "^13.4.1",
