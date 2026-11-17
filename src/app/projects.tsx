@@ -38,10 +38,10 @@ export const projects: Project[] = [
     title: "Neurodate",
     status: { label: "En desarrollo" },
     color: "pink",
-    summary: "App de citas y conexiones para personas neurodivergentes y LGBTIQ+.",
+    summary: "App de citas y conexiones para personas neurodivergentes.",
     tags: ["React Native", "Expo", "Supabase", "UX inclusiva"],
-    visual: <div className="project-visual phone-visual neurodate-visual"><span className="neurodate-poster"><Image src="/imagenes/neurodate/neurodate-portada.png" alt="Portada de NeuroDate: Encuentra tu match mental" width={2000} height={2000} sizes="180px" /></span><span className="neurodate-screen"><Image src="/imagenes/neurodate/neurodate-app-explorar.png" alt="Explorar en NeuroDate: tarjeta de perfil con avatar, intereses y valores" width={384} height={838} sizes="130px" /></span></div>,
-    problem: "Las apps de citas no suelen estar pensadas para personas neurodivergentes ni para el colectivo LGBTIQ+.",
+    visual: <div className="project-visual phone-visual neurodate-visual"><span className="neurodate-poster"><Image src="/imagenes/neurodate/neurodate-portada.png" alt="Portada de NeuroDate: Encuentra tu match mental" width={2000} height={2000} sizes="200px" /></span><span className="neurodate-screen"><Image src="/imagenes/neurodate/neurodate-app-explorar.png" alt="Explorar en NeuroDate: tarjeta de perfil con avatar, intereses y valores" width={384} height={838} sizes="130px" /></span></div>,
+    problem: "Las apps de citas no suelen estar pensadas para personas neurodivergentes.",
     built: [
       "App móvil con React Native y Expo, con Supabase para la autenticación, la base de datos y el tiempo real.",
       "Avatares simbólicos en lugar de fotos: las fotos se desbloquean poco a poco según los días que lleváis hablando.",
