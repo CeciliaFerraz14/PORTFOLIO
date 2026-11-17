@@ -3,16 +3,17 @@
 import { motion } from "motion/react";
 import { type CSSProperties, type PointerEvent, type ReactNode, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { type IdeaItem } from "./i18n/es";
 import { useLanguage } from "./i18n/LanguageProvider";
 import { JukeboxLogo } from "./JukeboxLogo";
 
 type Idea = { title: string; text: string; label: string; color: string; logo?: string; shot?: { src: string; alt: string } };
 
-// Añade aquí nuevas ideas: cada una es una hoja del taco. Su texto está en el diccionario (ideas.items, mismo orden).
-const ideaStyles: { color: string; logo?: string; shotSrc?: string }[] = [
-  { color: "var(--yellow)", logo: "/imagenes/pixelsprings/pixelsprings-logo.png", shotSrc: "/imagenes/pixelsprings/pixelsprings-juego.png" },
-  { color: "var(--mint)" },
-];
+// Añade aquí nuevas ideas: cada una es una hoja del taco. Su texto está en el diccionario (ideas.items), enlazado por id.
+const ideaStyles: Record<IdeaItem["id"], { color: string; logo?: string; shotSrc?: string }> = {
+  "pixel-springs": { color: "var(--yellow)", logo: "/imagenes/pixelsprings/pixelsprings-logo.png", shotSrc: "/imagenes/pixelsprings/pixelsprings-juego.png" },
+  next: { color: "var(--mint)" },
+};
 
 type Torn = { id: number; idea: number; tilt: number };
 
@@ -34,9 +35,9 @@ const taskbarApps = [
 // Ordenador con el texto de la sección (children) y un taco de post-its en la pantalla: al hacer click se arranca la hoja de arriba y cae, dejando ver la siguiente idea.
 export default function IdeaPad({ children }: { children: ReactNode }) {
   const { locale, t } = useLanguage();
-  const ideas: Idea[] = t.ideas.items.map((item, i) => {
-    const { shotSrc, ...style } = ideaStyles[i];
-    return { ...item, ...style, shot: shotSrc ? { src: shotSrc, alt: t.ideas.shotAlt } : undefined };
+  const ideas: Idea[] = t.ideas.items.map(({ id, shotAlt, ...item }) => {
+    const { shotSrc, ...style } = ideaStyles[id];
+    return { ...item, ...style, shot: shotSrc && shotAlt ? { src: shotSrc, alt: shotAlt } : undefined };
   });
   const [index, setIndex] = useState(0);
   const [torn, setTorn] = useState<Torn[]>([]);

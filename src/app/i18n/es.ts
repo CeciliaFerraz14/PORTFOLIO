@@ -1,3 +1,5 @@
+export type IdeaItem = { id: "pixel-springs" | "next"; title: string; text: string; label: string; shotAlt?: string };
+
 export const es = {
   loader: {
     label: "Cargando portfolio",
@@ -102,11 +104,10 @@ export const es = {
     tearLabel: (position: number, total: number) => `Arrancar la hoja y ver la siguiente idea (${position} de ${total})`,
     tearHint: "click para arrancar la hoja ↺",
     search: "buscar ideas…",
-    shotAlt: "Partida de Pixel Springs: el avatar dentro de la gasolinera de Hank",
     items: [
-      { title: "Pixel Springs", text: "Simulación en pixel art: montas negocios, gestionas recursos y haces crecer tu fortuna.", label: "videojuego · en curso" },
-      { title: "La siguiente…", text: "Todavía se está cocinando. Vuelve en un tiempo y probablemente haya otra hoja aquí.", label: "en el horno" },
-    ],
+      { id: "pixel-springs", title: "Pixel Springs", text: "Simulación en pixel art: montas negocios, gestionas recursos y haces crecer tu fortuna.", label: "videojuego · en curso", shotAlt: "Partida de Pixel Springs: el avatar dentro de la gasolinera de Hank" },
+      { id: "next", title: "La siguiente…", text: "Todavía se está cocinando. Vuelve en un tiempo y probablemente haya otra hoja aquí.", label: "en el horno" },
+    ] as IdeaItem[],
   },
   skills: {
     marker: "04 / MI CAJA DE HERRAMIENTAS",

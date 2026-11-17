@@ -104,10 +104,9 @@ export const en: Dictionary = {
     tearLabel: (position: number, total: number) => `Tear off the sheet and see the next idea (${position} of ${total})`,
     tearHint: "click to tear off the sheet ↺",
     search: "search ideas…",
-    shotAlt: "A Pixel Springs game: the avatar inside Hank's gas station",
     items: [
-      { title: "Pixel Springs", text: "A pixel art simulation: you start businesses, manage resources and grow your fortune.", label: "video game · in progress" },
-      { title: "The next one…", text: "Still cooking. Come back in a while and there will probably be another sheet here.", label: "in the oven" },
+      { id: "pixel-springs", title: "Pixel Springs", text: "A pixel art simulation: you start businesses, manage resources and grow your fortune.", label: "video game · in progress", shotAlt: "A Pixel Springs game: the avatar inside Hank's gas station" },
+      { id: "next", title: "The next one…", text: "Still cooking. Come back in a while and there will probably be another sheet here.", label: "in the oven" },
     ],
   },
   skills: {
