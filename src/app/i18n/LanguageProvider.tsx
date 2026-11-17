@@ -1,6 +1,8 @@
 "use client";
 
-import { createContext, useContext, useEffect, useSyncExternalStore } from "react";
+import { createContext, useContext, useEffect, useMemo, useSyncExternalStore } from "react";
+import { en } from "./en";
+import { es, type Dictionary } from "./es";
 import {
   LOCALE_STORAGE_KEY,
   pickLocale,
@@ -11,6 +13,7 @@ import {
 type LanguageContextValue = {
   locale: Locale;
   setLocale: (locale: Locale) => void;
+  t: Dictionary;
 };
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
@@ -61,11 +64,12 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.lang = locale;
   }, [locale]);
 
-  return (
-    <LanguageContext.Provider value={{ locale, setLocale }}>
-      {children}
-    </LanguageContext.Provider>
+  const value = useMemo(
+    () => ({ locale, setLocale, t: locale === "en" ? en : es }),
+    [locale],
   );
+
+  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }
 
 export function useLanguage(): LanguageContextValue {
