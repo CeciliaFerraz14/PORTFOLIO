@@ -21,7 +21,7 @@ const appTransition: Transition = { type: "spring", stiffness: 320, damping: 30 
 const sideApps = [
   { label: "proyectos", glyph: "▦", color: "yellow", className: "app-left-top" },
   { label: "música", glyph: "♪", color: "mint", className: "app-left-bottom" },
-  { label: "github", glyph: "⌘", color: "paper", className: "app-right-top" },
+  { label: "linkedin", glyph: "in", color: "paper", className: "app-right-top" },
   { label: "café", glyph: "☕", color: "yellow", className: "app-right-bottom" },
 ];
 const dockApps = ["✎", "◐", "✉", "⌂"];
