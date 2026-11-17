@@ -3,14 +3,15 @@
 import { motion } from "motion/react";
 import { type CSSProperties, type PointerEvent, type ReactNode, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useLanguage } from "./i18n/LanguageProvider";
 import { JukeboxLogo } from "./JukeboxLogo";
 
 type Idea = { title: string; text: string; label: string; color: string; logo?: string; shot?: { src: string; alt: string } };
 
-// Añade aquí nuevas ideas: cada una es una hoja del taco.
-const ideas: Idea[] = [
-  { title: "Pixel Springs", text: "Simulación en pixel art: montas negocios, gestionas recursos y haces crecer tu fortuna.", label: "videojuego · en curso", color: "var(--yellow)", logo: "/imagenes/pixelsprings/pixelsprings-logo.png", shot: { src: "/imagenes/pixelsprings/pixelsprings-juego.png", alt: "Partida de Pixel Springs: el avatar dentro de la gasolinera de Hank" } },
-  { title: "La siguiente…", text: "Todavía se está cocinando. Vuelve en un tiempo y probablemente haya otra hoja aquí.", label: "en el horno", color: "var(--mint)" },
+// Añade aquí nuevas ideas: cada una es una hoja del taco. Su texto está en el diccionario (ideas.items, mismo orden).
+const ideaStyles: { color: string; logo?: string; shotSrc?: string }[] = [
+  { color: "var(--yellow)", logo: "/imagenes/pixelsprings/pixelsprings-logo.png", shotSrc: "/imagenes/pixelsprings/pixelsprings-juego.png" },
+  { color: "var(--mint)" },
 ];
 
 type Torn = { id: number; idea: number; tilt: number };
@@ -32,6 +33,11 @@ const taskbarApps = [
 
 // Ordenador con el texto de la sección (children) y un taco de post-its en la pantalla: al hacer click se arranca la hoja de arriba y cae, dejando ver la siguiente idea.
 export default function IdeaPad({ children }: { children: ReactNode }) {
+  const { locale, t } = useLanguage();
+  const ideas: Idea[] = t.ideas.items.map((item, i) => {
+    const { shotSrc, ...style } = ideaStyles[i];
+    return { ...item, ...style, shot: shotSrc ? { src: shotSrc, alt: t.ideas.shotAlt } : undefined };
+  });
   const [index, setIndex] = useState(0);
   const [torn, setTorn] = useState<Torn[]>([]);
   const nextId = useRef(0);
@@ -57,11 +63,11 @@ export default function IdeaPad({ children }: { children: ReactNode }) {
 
   // Reloj de la barra de tareas: se rellena en el cliente para no chocar con el HTML del servidor.
   useEffect(() => {
-    const tick = () => setClock(new Date().toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" }));
+    const tick = () => setClock(new Date().toLocaleTimeString(locale === "es" ? "es-ES" : "en-GB", { hour: "2-digit", minute: "2-digit" }));
     const first = setTimeout(tick, 0);
     const interval = setInterval(tick, 15000);
     return () => { clearTimeout(first); clearInterval(interval); };
-  }, []);
+  }, [locale]);
   const next = (index + 1) % ideas.length;
 
   const tear = () => {
@@ -94,11 +100,11 @@ export default function IdeaPad({ children }: { children: ReactNode }) {
         <div className="pc-screen" onPointerMove={paintTrail} onPointerLeave={() => { lastDot.current.x = -99; }}>
           <div className="pc-window-bar" aria-hidden="true">
             <span className="pc-dots"><i /><i /><i /></span>
-            ideas_en_el_horno.txt
+            {t.ideas.fileName}
           </div>
           <div className="pc-desktop">
             {children}
-            <button className="idea-pad" onClick={tear} aria-label={`Arrancar la hoja y ver la siguiente idea (${index + 1} de ${ideas.length})`}>
+            <button className="idea-pad" onClick={tear} aria-label={t.ideas.tearLabel(index + 1, ideas.length)}>
               <span className="idea-pad-edge" aria-hidden="true" />
               <IdeaSheet idea={ideas[next]} className="is-under" hidden />
               <IdeaSheet idea={ideas[index]} key={index} />
@@ -120,7 +126,7 @@ export default function IdeaPad({ children }: { children: ReactNode }) {
           </div>
           <div className="pc-taskbar" aria-hidden="true">
             <span className="pc-start"><i /><i /><i /><i /></span>
-            <span className="pc-search">buscar ideas…</span>
+            <span className="pc-search">{t.ideas.search}</span>
             <span className="pc-apps">
               {taskbarApps.map((app) => (
                 <span key={app.label} className={`pc-app ${app.active ? "is-active" : ""}`} style={{ background: app.color }}>{app.glyph}</span>
@@ -147,7 +153,7 @@ export default function IdeaPad({ children }: { children: ReactNode }) {
         <span className="pc-mouse" />
       </div>
       <p className="idea-pad-hint" aria-live="polite">
-        <span>{index + 1} / {ideas.length}</span> click para arrancar la hoja ↺
+        <span>{index + 1} / {ideas.length}</span> {t.ideas.tearHint}
       </p>
     </div>
   );
