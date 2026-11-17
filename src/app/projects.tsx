@@ -56,7 +56,7 @@ export const projects: Project[] = [
       { src: "/imagenes/neurodate/neurodate-app-bienvenida.png", alt: "Pantalla de bienvenida de NeuroDate: conexiones auténticas, sin filtros superficiales", width: 386, height: 847, label: "bienvenida" },
       { src: "/imagenes/neurodate/neurodate-app-explorar.png", alt: "Explorar en NeuroDate: tarjeta de perfil con avatar, intereses y valores", width: 384, height: 838, label: "explorar" },
       { src: "/imagenes/neurodate/neurodate-app-perfil.png", alt: "Tarjeta de perfil en NeuroDate con identidad, distancia aproximada, intereses y valores", width: 382, height: 837, label: "perfil" },
-      { src: "/imagenes/neurodate/neurodate-app-conexiones.png", alt: "Conexiones de NeuroDate con las conversaciones y sus estrellas", width: 382, height: 836, label: "conexiones" },
+      { src: "/imagenes/neurodate/neurodate-app-conexiones.png", alt: "Conexiones de NeuroDate con las conversaciones y sus estrellas", width: 383, height: 834, label: "conexiones" },
       { src: "/imagenes/neurodate/neurodate-app-chat-galeria.png", alt: "Chat de NeuroDate avisando de que la galería completa se ha desbloqueado", width: 384, height: 839, label: "galería desbloqueada" },
       { src: "/imagenes/neurodate/neurodate-app-galeria.png", alt: "Galería de NeuroDate con las fotos que se desbloquean por estrellas", width: 385, height: 834, label: "galería" },
       { src: "/imagenes/neurodate/neurodate-app-comunidades.png", alt: "Comunidades de NeuroDate recomendadas por Claude según tus intereses", width: 383, height: 834, label: "comunidades" },
