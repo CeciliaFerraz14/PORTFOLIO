@@ -226,7 +226,7 @@ export default function Home() {
           <a href="#proyectos">{t.nav.projects}</a>
           <a href="#contacto">{t.nav.contact} <span aria-hidden="true"><ArrowUpRight /></span></a>
           <div className="lang-switch" role="group" aria-label={t.nav.language}>
-            {(["es", "en"] as const).map((code) => <button key={code} type="button" aria-pressed={locale === code} onClick={() => setLocale(code)}>{code.toUpperCase()}</button>)}
+            {(["es", "en"] as const).map((code) => <button key={code} type="button" lang={code} aria-label={code === "es" ? "Español" : "English"} aria-pressed={locale === code} onClick={() => setLocale(code)}>{code.toUpperCase()}</button>)}
           </div>
         </div>
       </nav>

@@ -4,16 +4,11 @@
 // para que la clave de la API nunca llegue al navegador.
 // Variables de entorno: RESEND_API_KEY, CONTACT_TO_EMAIL y, opcional, CONTACT_FROM_EMAIL.
 
+import { es } from "./i18n/es";
+
 // Errors are codes, not texts: the form translates them to the visitor's language.
 export type ContactErrorCode = "invalid" | "not-configured" | "send-failed";
 export type ContactResult = { ok: true } | { ok: false; error: ContactErrorCode };
-
-const topicLabels: Record<string, string> = {
-  proyecto: "Un proyecto",
-  colaboracion: "Colaborar",
-  empleo: "Oferta de trabajo",
-  cafe: "Solo un café",
-};
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -24,7 +19,7 @@ export async function sendContactMessage(formData: FormData): Promise<ContactRes
   const name = String(formData.get("name") ?? "").trim().slice(0, 100);
   const email = String(formData.get("email") ?? "").trim().slice(0, 200);
   const message = String(formData.get("message") ?? "").trim().slice(0, 800);
-  const topic = topicLabels[String(formData.get("topic") ?? "")] ?? "Contacto";
+  const topic = (es.form.topics as Record<string, string>)[String(formData.get("topic") ?? "")] ?? "Contacto";
 
   if (!name || !message || !EMAIL_PATTERN.test(email)) {
     return { ok: false, error: "invalid" };

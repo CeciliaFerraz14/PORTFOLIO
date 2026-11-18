@@ -34,7 +34,7 @@ export const en: Dictionary = {
   about: {
     dialogLabel: "About me",
     topbar: "ceci / about-me",
-    minimize: "Minimize explorer",
+    minimize: "Minimise explorer",
     sidebarLabel: "MY FOLDERS",
     statusLabel: "STATUS",
     status: "available to build",
@@ -53,9 +53,9 @@ export const en: Dictionary = {
       ["Cybersecurity: Prevention, Analysis and Response to Security Incidents · 49h", "Mainjobs Internacional Educativa y Tecnológica, S.A.", "2025"],
       ["Big Data Tools and Data Governance · 60h", "Mainjobs Internacional Educativa y Tecnológica, S.A.", "2025"],
       ["FullStack Web Development · 180h", "CEI: Centro de estudios de Diseño, Marketing y Nuevas Tecnologías", "2024-2025"],
-      ["Advanced Degree in Music, Cello specialization", "Conservatorio Superior de Música de Navarra", "2017-2021"],
+      ["Bachelor's Degree in Music (Cello)", "Conservatorio Superior de Música de Navarra", "2017-2021"],
       ["High School Diploma (Bachillerato)", "IES Torre de los Espejos", "2012-2015"],
-      ["Intermediate Degree in Music, Cello specialization", "Conservatorio Profesional de Música de Zaragoza", "2010-2016"],
+      ["Professional Music Diploma (Cello)", "Conservatorio Profesional de Música de Zaragoza", "2010-2016"],
     ],
     work: [
       { title: "IT Department", place: "Belsué Mediación de Seguros", period: "present", tasks: ["belsue.es: design and development of the corporate website, with an insurance catalogue, assistance by company and contact", "Self-managed blog: a custom publishing panel (CMS-style) so the team can post news without touching a line of code", "CorreSeguro: a website to buy runners' insurance online in 7 steps, with an AI chat open 24/7", "BelChat: WhatsApp Business turned into an AI-powered ticket system with a real-time support panel", "El Formador: an internal assistant that brings together products, companies and quotes, always citing its sources", "Tech support: solving day-to-day issues so nobody gets stuck", "User training: I help the team get the most out of the new tools"] },
@@ -122,7 +122,7 @@ export const en: Dictionary = {
       languages: "Languages",
     },
     ai: ["Claude-assisted development, from idea to production", "Assistants over internal documentation", "LLM integration"],
-    languages: ["Spanish · native", "English · comprehension B2", "English · expression B1"],
+    languages: ["Spanish · native", "English · B2 reading & listening", "English · B1 speaking & writing"],
   },
   contact: {
     marker: "05 / CONTACT",

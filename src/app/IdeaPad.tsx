@@ -9,7 +9,7 @@ import { JukeboxLogo } from "./JukeboxLogo";
 
 type Idea = { title: string; text: string; label: string; color: string; logo?: string; shot?: { src: string; alt: string } };
 
-// Añade aquí nuevas ideas: cada una es una hoja del taco. Su texto está en el diccionario (ideas.items), enlazado por id.
+// Each idea is one sheet of the pad. Add its id to IdeaItem (i18n/es.ts), its texts to ideas.items in es.ts and en.ts, and its style here.
 const ideaStyles: Record<IdeaItem["id"], { color: string; logo?: string; shotSrc?: string }> = {
   "pixel-springs": { color: "var(--yellow)", logo: "/imagenes/pixelsprings/pixelsprings-logo.png", shotSrc: "/imagenes/pixelsprings/pixelsprings-juego.png" },
   next: { color: "var(--mint)" },

@@ -31,7 +31,7 @@ const pwaInstall: NonNullable<Project["tryIt"]>["install"] = [
     steps: [
       { es: "Abre el enlace en Safari.", en: "Open the link in Safari." },
       { es: "Toca el botón Compartir (el cuadrado con la flecha hacia arriba).", en: "Tap the Share button (the square with the arrow pointing up)." },
-      { es: "Elige «Añadir a pantalla de inicio» y confirma con «Añadir».", en: "Choose \"Add to Home Screen\" and confirm with \"Add\"." },
+      { es: "Elige «Añadir a pantalla de inicio» y confirma con «Añadir».", en: "Choose “Add to Home Screen” and confirm with “Add”." },
     ],
   },
   {
@@ -39,7 +39,7 @@ const pwaInstall: NonNullable<Project["tryIt"]>["install"] = [
     steps: [
       { es: "Abre el enlace en Chrome.", en: "Open the link in Chrome." },
       { es: "Toca el menú ⋮ de arriba a la derecha.", en: "Tap the ⋮ menu at the top right." },
-      { es: "Elige «Instalar app» (o «Añadir a pantalla de inicio») y confirma.", en: "Choose \"Install app\" (or \"Add to Home screen\") and confirm." },
+      { es: "Elige «Instalar app» (o «Añadir a pantalla de inicio») y confirma.", en: "Choose “Install app” (or “Add to Home screen”) and confirm." },
     ],
   },
   {
@@ -47,7 +47,7 @@ const pwaInstall: NonNullable<Project["tryIt"]>["install"] = [
     steps: [
       { es: "Abre el enlace en Chrome o Edge.", en: "Open the link in Chrome or Edge." },
       { es: "Pulsa el icono de instalar a la derecha de la barra de direcciones.", en: "Click the install icon at the right of the address bar." },
-      { es: "Confirma con «Instalar»: se abrirá en su propia ventana.", en: "Confirm with \"Install\": it will open in its own window." },
+      { es: "Confirma con «Instalar»: se abrirá en su propia ventana.", en: "Confirm with “Install”: it will open in its own window." },
     ],
   },
 ];
@@ -122,7 +122,7 @@ export const projects: Project[] = [
       { es: "App móvil con React Native y Expo, con Supabase para la autenticación, la base de datos y el tiempo real.", en: "Mobile app with React Native and Expo, using Supabase for authentication, the database and real time." },
       { es: "Avatares simbólicos en lugar de fotos: las fotos se desbloquean poco a poco según los días que lleváis hablando.", en: "Symbolic avatars instead of photos: photos unlock little by little depending on how many days you have been talking." },
       { es: "Perfiles inclusivos con identidad de género, orientación, intereses y valores.", en: "Inclusive profiles with gender identity, orientation, interests and values." },
-      { es: "Chat en tiempo real con indicador de «escribiendo», notificaciones y opciones para reportar y bloquear.", en: "Real-time chat with a \"typing\" indicator, notifications and options to report and block." },
+      { es: "Chat en tiempo real con indicador de «escribiendo», notificaciones y opciones para reportar y bloquear.", en: "Real-time chat with a “typing” indicator, notifications and options to report and block." },
       { es: "Distancia aproximada sin exponer nunca la ubicación exacta, y opción de ocultarla.", en: "Approximate distance without ever exposing the exact location, and an option to hide it." },
       { es: "Comunidades por temas, con recomendaciones de Claude a partir de los intereses del perfil, sin leer los mensajes.", en: "Communities by topic, with recommendations from Claude based on the profile's interests, without reading the messages." },
       { es: "Accesibilidad: modo oscuro, tamaño de fuente ajustable y etiquetas de accesibilidad en todos los elementos.", en: "Accessibility: dark mode, adjustable font size and accessibility labels on every element." },
@@ -135,7 +135,7 @@ export const projects: Project[] = [
     title: "HOMI",
     status: { label: { es: "En uso", en: "In use" }, tone: "live" },
     color: "green",
-    summary: { es: "Organizar las tareas de casa en equipo, sin que todo dependa de una sola persona.", en: "Organising household chores as a team, so everything doesn't depend on one person." },
+    summary: { es: "Organizar las tareas de casa en equipo, sin que todo dependa de una sola persona.", en: "Organising household chores as a team, so it doesn't all fall on one person." },
     tags: ["React Native", "PWA", "Vercel"],
     visual: (locale) => <div className="project-visual phone-fan"><span className="fan-phone"><Image src="/imagenes/homi/homi-app-portada.jpg" alt={homiCoverAlt[locale]} width={600} height={1231} sizes="(max-width: 760px) 27vw, 140px" /></span><span className="fan-screen fan-1"><Image src={homiShots[1].src} alt={homiShots[1].alt[locale]} width={600} height={1212} sizes="(max-width: 760px) 25vw, 130px" /></span><span className="fan-screen fan-2"><Image src={homiShots[2].src} alt={homiShots[2].alt[locale]} width={600} height={1176} sizes="(max-width: 760px) 25vw, 130px" /></span><span className="fan-screen fan-3"><Image src={homiShots[5].src} alt={homiShots[5].alt[locale]} width={600} height={1170} sizes="(max-width: 760px) 25vw, 130px" /></span></div>,
     problem: { es: "En muchas casas las tareas acaban recayendo siempre en la misma persona.", en: "In many homes the chores always end up falling on the same person." },
@@ -173,7 +173,7 @@ export const projects: Project[] = [
       { es: "App web instalable (PWA) con React, Vite, TypeScript y Tailwind CSS, desplegada en Vercel.", en: "Installable web app (PWA) with React, Vite, TypeScript and Tailwind CSS, deployed on Vercel." },
       { es: "Backend en Supabase: autenticación, Postgres con políticas RLS, Storage para fotos y Realtime.", en: "Backend on Supabase: authentication, Postgres with RLS policies, Storage for photos and Realtime." },
       { es: "Tablón de avisos generales o por grupo, con avisos importantes, fotos y control de leídos.", en: "Notice board for general or per-group notices, with important notices, photos and read tracking." },
-      { es: "Calendario de clases y quedadas con repeticiones, asistencia («Voy») y la próxima cita en el inicio.", en: "Calendar of classes and meetups with recurring events, attendance (\"I'm going\") and the next event on the home screen." },
+      { es: "Calendario de clases y quedadas con repeticiones, asistencia («Voy») y la próxima cita en el inicio.", en: "Calendar of classes and meetups with recurring events, attendance (“I'm going”) and the next event on the home screen." },
       { es: "Cada grupo tiene su muro, chat con fotos, galería y miembros; se puede compartir texto, fotos, vídeos y Spotify.", en: "Each group has its wall, chat with photos, gallery and members; you can share text, photos, videos and Spotify." },
       { es: "Notificaciones push para avisos, mensajes del chat y felicitaciones de cumpleaños automáticas.", en: "Push notifications for notices, chat messages and automatic birthday greetings." },
       { es: "Tienda de la escuela para pedir camisetas y otros productos.", en: "School shop to order T-shirts and other products." },
