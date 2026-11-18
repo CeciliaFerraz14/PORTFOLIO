@@ -11,7 +11,7 @@ const viewerOpenTransition: Transition = { type: "spring", stiffness: 360, dampi
 const viewerCloseTransition: Transition = { type: "tween", duration: 0.2, ease: [0.4, 0, 1, 1] };
 
 export default function ProjectsBoard() {
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
   const [openId, setOpenId] = useState<string | null>(null);
   const lastOpened = useRef<string | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -77,9 +77,9 @@ export default function ProjectsBoard() {
             }}
           >
             <article className={`project-card ${project.featured ? "featured" : ""} ${project.color}-card`}>
-              <div className="project-top"><span className="project-number">{project.number}</span><span className="project-top-end"><span className={`project-status ${project.status.tone ?? ""}`}>● {project.status.label}</span><button className="project-open" onClick={() => open(project.id)} aria-haspopup="dialog" aria-label={t.projects.openProject(project.title)}>{t.projects.open} <ArrowUpRight /></button></span></div>
-              {project.visual}
-              <div className="project-content"><h3>{project.title}{project.subtitle && <> <small>{project.subtitle}</small></>}</h3><p>{project.summary}</p><div className="tags">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></div>
+              <div className="project-top"><span className="project-number">{project.number}</span><span className="project-top-end"><span className={`project-status ${project.status.tone ?? ""}`}>● {project.status.label[locale]}</span><button className="project-open" onClick={() => open(project.id)} aria-haspopup="dialog" aria-label={t.projects.openProject(project.title)}>{t.projects.open} <ArrowUpRight /></button></span></div>
+              {project.visual(locale)}
+              <div className="project-content"><h3>{project.title}{project.subtitle && <> <small>{project.subtitle[locale]}</small></>}</h3><p>{project.summary[locale]}</p><div className="tags">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></div>
             </article>
           </div>
         ))}
@@ -94,26 +94,26 @@ export default function ProjectsBoard() {
                 <div className="explorer-topbar"><div className="window-dots"><i /><i /><i /></div><span>{t.projects.windowPath(openProject.id)}</span><button className="minimize-button" onClick={close} aria-label={t.projects.closeProject}>×</button></div>
                 <div className="project-detail">
                   <div className="project-detail-copy">
-                    <span className="project-detail-kicker">{openProject.number} · <span className={`project-status ${openProject.status.tone ?? ""}`}>● {openProject.status.label}</span></span>
-                    <h2>{openProject.title}{openProject.subtitle && <> <small>{openProject.subtitle}</small></>}</h2>
-                    <p className="project-detail-lead">{openProject.summary}</p>
+                    <span className="project-detail-kicker">{openProject.number} · <span className={`project-status ${openProject.status.tone ?? ""}`}>● {openProject.status.label[locale]}</span></span>
+                    <h2>{openProject.title}{openProject.subtitle && <> <small>{openProject.subtitle[locale]}</small></>}</h2>
+                    <p className="project-detail-lead">{openProject.summary[locale]}</p>
                     <h3>{t.projects.challenge}</h3>
-                    <p>{openProject.problem}</p>
+                    <p>{openProject.problem[locale]}</p>
                     <h3>{t.projects.built}</h3>
-                    <ul>{openProject.built.map((item) => <li key={item}>{item}</li>)}</ul>
+                    <ul>{openProject.built.map((item) => <li key={item.es}>{item[locale]}</li>)}</ul>
                     <div className="tags">{openProject.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
-                    {openProject.link && <a className="project-detail-link" href={openProject.link.href} target="_blank" rel="noreferrer">{openProject.link.label} <ArrowUpRight /></a>}
+                    {openProject.link && <a className="project-detail-link" href={openProject.link.href} target="_blank" rel="noreferrer">{openProject.link.label[locale]} <ArrowUpRight /></a>}
                     {openProject.tryIt && (
                       <section className="try-app" aria-label={t.projects.tryProject(openProject.title)}>
                         <h3>{t.projects.tryHeading}</h3>
-                        <p>{openProject.tryIt.note}</p>
-                        <a className="project-detail-link" href={openProject.tryIt.href} target="_blank" rel="noreferrer">{openProject.tryIt.label} <ArrowUpRight /></a>
+                        <p>{openProject.tryIt.note[locale]}</p>
+                        <a className="project-detail-link" href={openProject.tryIt.href} target="_blank" rel="noreferrer">{openProject.tryIt.label[locale]} <ArrowUpRight /></a>
                         <div className="try-app-install">
                           <span>{t.projects.installHeading}</span>
                           {openProject.tryIt.install.map(({ platform, steps }) => (
-                            <details key={platform}>
-                              <summary>{platform}</summary>
-                              <ol>{steps.map((step) => <li key={step}>{step}</li>)}</ol>
+                            <details key={platform.es}>
+                              <summary>{platform[locale]}</summary>
+                              <ol>{steps.map((step) => <li key={step.es}>{step[locale]}</li>)}</ol>
                             </details>
                           ))}
                         </div>

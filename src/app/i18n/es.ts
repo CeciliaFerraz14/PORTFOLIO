@@ -107,7 +107,7 @@ export const es = {
     items: [
       { id: "pixel-springs", title: "Pixel Springs", text: "Simulación en pixel art: montas negocios, gestionas recursos y haces crecer tu fortuna.", label: "videojuego · en curso", shotAlt: "Partida de Pixel Springs: el avatar dentro de la gasolinera de Hank" },
       { id: "next", title: "La siguiente…", text: "Todavía se está cocinando. Vuelve en un tiempo y probablemente haya otra hoja aquí.", label: "en el horno" },
-    ] as IdeaItem[],
+    ] satisfies IdeaItem[],
   },
   skills: {
     marker: "04 / MI CAJA DE HERRAMIENTAS",

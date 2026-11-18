@@ -7,7 +7,7 @@ import type { Shot } from "./projects";
 
 // Capturas del proyecto abierto: se ve una cada vez y se pasa con flechas, miniaturas, teclado o deslizando.
 export default function ShotCarousel({ shots, title }: { shots: Shot[]; title: string }) {
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
   const [index, setIndex] = useState(0);
   const touchStart = useRef<number | null>(null);
   const videos = useRef<(HTMLVideoElement | null)[]>([]);
@@ -47,10 +47,10 @@ export default function ShotCarousel({ shots, title }: { shots: Shot[]; title: s
             return (
               <div key={shot.src} className="carousel-slide" aria-hidden={shotIndex !== index}>
                 <figure className="project-shot">
-                  <span className="cs-bar"><i /><i /><i /><em>{shot.label}</em></span>
+                  <span className="cs-bar"><i /><i /><i /><em>{shot.label[locale]}</em></span>
                   {shot.video
-                    ? <video ref={(element) => { videos.current[shotIndex] = element; }} src={shot.video} poster={shot.src} width={shot.width} height={shot.height} controls playsInline preload="metadata" aria-label={shot.alt} tabIndex={shotIndex === index ? undefined : -1} />
-                    : <Image src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} sizes={wide ? "(max-width: 760px) 90vw, 520px" : "(max-width: 760px) 60vw, 300px"} />}
+                    ? <video ref={(element) => { videos.current[shotIndex] = element; }} src={shot.video} poster={shot.src} width={shot.width} height={shot.height} controls playsInline preload="metadata" aria-label={shot.alt[locale]} tabIndex={shotIndex === index ? undefined : -1} />
+                    : <Image src={shot.src} alt={shot.alt[locale]} width={shot.width} height={shot.height} sizes={wide ? "(max-width: 760px) 90vw, 520px" : "(max-width: 760px) 60vw, 300px"} />}
                 </figure>
               </div>
             );
@@ -66,7 +66,7 @@ export default function ShotCarousel({ shots, title }: { shots: Shot[]; title: s
           <span className="shot-carousel-count" aria-live="polite">{index + 1} / {shots.length}</span>
           <div className="carousel-thumbs">
             {shots.map((shot, shotIndex) => (
-              <button key={shot.src} type="button" className={shotIndex === index ? "is-active" : ""} onClick={() => go(shotIndex)} aria-label={t.projects.carousel.viewShot(shotIndex + 1, shot.label)} aria-current={shotIndex === index}>
+              <button key={shot.src} type="button" className={shotIndex === index ? "is-active" : ""} onClick={() => go(shotIndex)} aria-label={t.projects.carousel.viewShot(shotIndex + 1, shot.label[locale])} aria-current={shotIndex === index}>
                 <Image src={shot.src} alt="" width={shot.width} height={shot.height} sizes="80px" />{shot.video && <span className="thumb-play" aria-hidden="true">▶</span>}
               </button>
             ))}
