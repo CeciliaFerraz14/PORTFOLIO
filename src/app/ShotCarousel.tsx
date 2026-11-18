@@ -5,14 +5,14 @@ import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "./i18n/LanguageProvider";
 import type { Shot } from "./projects";
 
-// Capturas del proyecto abierto: se ve una cada vez y se pasa con flechas, miniaturas, teclado o deslizando.
+// Shots of the open project: one is visible at a time, navigated with arrows, thumbnails, keyboard or swipe.
 export default function ShotCarousel({ shots, title }: { shots: Shot[]; title: string }) {
   const { locale, t } = useLanguage();
   const [index, setIndex] = useState(0);
   const touchStart = useRef<number | null>(null);
   const videos = useRef<(HTMLVideoElement | null)[]>([]);
 
-  // Al cambiar de diapositiva se pausa cualquier vídeo que se quede fuera de la vista.
+  // When the slide changes, any video that ends up out of view is paused.
   useEffect(() => {
     videos.current.forEach((video, videoIndex) => { if (video && videoIndex !== index) video.pause(); });
   }, [index]);
