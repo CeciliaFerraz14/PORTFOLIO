@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import ArrowUpRight from "./ArrowUpRight";
 import ContactForm from "./ContactForm";
+import { useLanguage } from "./i18n/LanguageProvider";
 import { JukeboxMarkSmall } from "./JukeboxLogo";
 
 // Tablet del contacto: al tocarla, un clon de la tablet (fijo en pantalla) hace zoom hasta que su
@@ -19,29 +20,30 @@ const zoomOutTransition: Transition = { duration: 0.8, ease: [0.76, 0, 0.24, 1] 
 const appTransition: Transition = { type: "spring", stiffness: 320, damping: 30 };
 
 const sideApps = [
-  { label: "proyectos", glyph: "▦", color: "yellow", className: "app-left-top" },
-  { label: "música", glyph: "♪", color: "mint", className: "app-left-bottom" },
-  { label: "linkedin", glyph: "in", color: "paper", className: "app-right-top" },
-  { label: "café", glyph: "☕", color: "yellow", className: "app-right-bottom" },
-];
+  { id: "projects", glyph: "▦", color: "yellow", className: "app-left-top" },
+  { id: "music", glyph: "♪", color: "mint", className: "app-left-bottom" },
+  { id: "linkedin", glyph: "in", color: "paper", className: "app-right-top" },
+  { id: "coffee", glyph: "☕", color: "yellow", className: "app-right-bottom" },
+] as const;
 const dockApps = ["✎", "◐", "✉", "⌂"];
 
 function TabletFace() {
+  const { t } = useLanguage();
   return (
     <span className="tablet-face">
       <span className="tablet-camera" />
       <span className="tablet-screen">
         <span className="tablet-status"><b>9:41</b><span>ceci-os</span><span>●●● 87%</span></span>
         {sideApps.map((app) => (
-          <span key={app.label} className={`tablet-icon ${app.className}`}>
+          <span key={app.id} className={`tablet-icon ${app.className}`}>
             <span className={`tablet-icon-tile tile-${app.color}`}>{app.glyph}</span>
-            <span className="tablet-icon-label">{app.label}</span>
+            <span className="tablet-icon-label">{t.tablet.apps[app.id]}</span>
           </span>
         ))}
         <span className="tablet-main-app">
           <span className="tablet-main-tile"><JukeboxMarkSmall className="tablet-main-mark" /></span>
-          <span className="tablet-main-label">nueva-idea</span>
-          <span className="tablet-main-hint">toca para entrar <ArrowUpRight /></span>
+          <span className="tablet-main-label">{t.tablet.appName}</span>
+          <span className="tablet-main-hint">{t.tablet.enter} <ArrowUpRight /></span>
         </span>
         <span className="tablet-dock">{dockApps.map((glyph) => <i key={glyph}>{glyph}</i>)}</span>
       </span>
@@ -50,6 +52,7 @@ function TabletFace() {
 }
 
 export default function TabletContact() {
+  const { t } = useLanguage();
   const [phase, setPhase] = useState<Phase>("idle");
   const [geometry, setGeometry] = useState<Geometry | null>(null);
   const tabletRef = useRef<HTMLButtonElement>(null);
@@ -128,10 +131,10 @@ export default function TabletContact() {
 
   return (
     <div className="contact-tablet-slot">
-      <button ref={tabletRef} type="button" className={`contact-tablet ${phase !== "idle" ? "is-away" : ""}`} onClick={enter} aria-haspopup="dialog" aria-expanded={phase === "open"} aria-label="Entrar en la tablet para escribirme">
+      <button ref={tabletRef} type="button" className={`contact-tablet ${phase !== "idle" ? "is-away" : ""}`} onClick={enter} aria-haspopup="dialog" aria-expanded={phase === "open"} aria-label={t.tablet.open}>
         <TabletFace />
       </button>
-      <p className="tablet-caption">psst… la idea se escribe <em>dentro</em> de la tablet</p>
+      <p className="tablet-caption">{t.tablet.captionLead}<em>{t.tablet.captionEm}</em>{t.tablet.captionTail}</p>
 
       {phase !== "idle" && createPortal(
         <div className="tablet-portal">
@@ -160,7 +163,7 @@ export default function TabletContact() {
                 className="tablet-app"
                 role="dialog"
                 aria-modal="true"
-                aria-label="Formulario de contacto"
+                aria-label={t.tablet.dialogLabel}
                 tabIndex={-1}
                 initial={{ opacity: 0, scale: 0.3, borderRadius: 60 }}
                 animate={{ opacity: 1, scale: 1, borderRadius: 0 }}
@@ -173,9 +176,9 @@ export default function TabletContact() {
                   pressedOutside.current = false;
                 }}
               >
-                <div className="tablet-app-status"><b>9:41</b><span>nueva-idea</span><span>●●● 87%</span></div>
+                <div className="tablet-app-status"><b>9:41</b><span>{t.tablet.appName}</span><span>●●● 87%</span></div>
                 <div className="tablet-app-body"><ContactForm /></div>
-                <button type="button" className="tablet-home" onClick={leave}><span className="tablet-home-bar" />volver al portfolio</button>
+                <button type="button" className="tablet-home" onClick={leave}><span className="tablet-home-bar" />{t.tablet.back}</button>
               </motion.div>
             )}
           </AnimatePresence>

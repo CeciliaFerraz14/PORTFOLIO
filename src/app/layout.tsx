@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, Fredoka, Josefin_Sans, Space_Mono } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "./i18n/LanguageProvider";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -34,10 +35,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
+      lang="es"
       className={`${dmSans.variable} ${spaceMono.variable} ${josefinSans.variable} ${fredoka.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <LanguageProvider>{children}</LanguageProvider>
+      </body>
     </html>
   );
 }

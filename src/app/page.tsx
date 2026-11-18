@@ -3,6 +3,7 @@
 import { AnimatePresence, MotionConfig, motion, type Transition } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import ArrowUpRight from "./ArrowUpRight";
+import { useLanguage } from "./i18n/LanguageProvider";
 import IdeaPad from "./IdeaPad";
 import { JukeboxLogo, JukeboxMark, JukeboxMarkSmall } from "./JukeboxLogo";
 import ProjectsBoard from "./ProjectsBoard";
@@ -15,18 +16,21 @@ const pleatColors = ["coral", "yellow", "lilac", "mint"].flatMap((color) => Arra
 const aboutOpenTransition: Transition = { type: "spring", stiffness: 380, damping: 30, mass: 0.9 };
 const aboutCloseTransition: Transition = { type: "tween", duration: 0.28, ease: [0.4, 0, 1, 1] };
 
-const profileText = "Con una mentalidad curiosa y proactiva, busco constantemente ampliar mis conocimientos y habilidades a través del aprendizaje autónomo. Me adapto con facilidad a nuevos entornos y desafíos, trabajando eficazmente en equipo y con una clara orientación a la consecución de objetivos.";
-
 // Pill tone maps to the .<tone>-pill classes in globals.css
-const skillGroups: { label: string; skills: [name: string, tone: "blue" | "coral" | "green" | "yellow" | "pink" | "outline" | "small", large?: boolean][] }[] = [
-  { label: "Frontend", skills: [["HTML · CSS", "blue", true], ["JavaScript", "coral"], ["TypeScript", "pink"], ["React", "green"], ["Next.js", "yellow"], ["React Native", "outline"], ["Flutter", "blue"], ["Tailwind CSS", "outline"]] },
-  { label: "Backend + datos", skills: [["Java", "coral"], ["C#", "yellow"], ["ASP.NET MVC", "outline"], ["Node.js", "green"], ["Express.js", "outline"], ["SQL", "pink"], ["MySQL", "outline"], ["PostgreSQL", "blue"], ["MongoDB", "yellow"], ["Supabase", "outline"]] },
-  { label: "Cloud + ecosistema", skills: [["AWS · VPC · EC2", "blue"], ["Load Balancers · Auto Scaling", "outline"], ["Vercel", "coral"], ["Microsoft 365", "outline"], ["WhatsApp Business API", "green"], ["Git", "small"], ["VS Code", "yellow"], ["Eclipse", "outline"], ["Visual Studio", "outline"]] },
-  { label: "IA", skills: [["Desarrollo asistido con Claude, de la idea a producción", "pink"], ["Asistentes sobre documentación interna", "yellow"], ["Integración de LLMs", "outline"]] },
-  { label: "Idiomas", skills: [["Español · nativo", "green"], ["Inglés · comprensión B2", "blue"], ["Inglés · expresión B1", "outline"]] },
+type Tone = "blue" | "coral" | "green" | "yellow" | "pink" | "outline" | "small";
+type Pill = [name: string, tone: Tone, large?: boolean];
+// Tech pills are not translated; "tones" groups take their texts from the dictionary.
+const skillGroups: ({ key: "frontend" | "backend" | "cloud"; skills: Pill[] } | { key: "ai" | "languages"; tones: Tone[] })[] = [
+  { key: "frontend", skills: [["HTML · CSS", "blue", true], ["JavaScript", "coral"], ["TypeScript", "pink"], ["React", "green"], ["Next.js", "yellow"], ["React Native", "outline"], ["Flutter", "blue"], ["Tailwind CSS", "outline"]] },
+  { key: "backend", skills: [["Java", "coral"], ["C#", "yellow"], ["ASP.NET MVC", "outline"], ["Node.js", "green"], ["Express.js", "outline"], ["SQL", "pink"], ["MySQL", "outline"], ["PostgreSQL", "blue"], ["MongoDB", "yellow"], ["Supabase", "outline"]] },
+  { key: "cloud", skills: [["AWS · VPC · EC2", "blue"], ["Load Balancers · Auto Scaling", "outline"], ["Vercel", "coral"], ["Microsoft 365", "outline"], ["WhatsApp Business API", "green"], ["Git", "small"], ["VS Code", "yellow"], ["Eclipse", "outline"], ["Visual Studio", "outline"]] },
+  { key: "ai", tones: ["pink", "yellow", "outline"] },
+  { key: "languages", tones: ["green", "blue", "outline"] },
 ];
 
 export default function Home() {
+  const { locale, setLocale, t } = useLanguage();
+  const profileText = t.about.profile;
   const [selectedFolder, setSelectedFolder] = useState("sobre-mi");
   const [aboutOpen, setAboutOpen] = useState(false);
   const [folderLaunching, setFolderLaunching] = useState(false);
@@ -120,26 +124,10 @@ export default function Home() {
     }, 8);
 
     return () => window.clearInterval(timer);
-  }, []);
-  const academicRecords = [
-    ["Grado Superior en Desarrollo de Aplicaciones Multiplataforma (DAM)", "Salesianos Zaragoza", "En curso"],
-    ["Ciberseguridad: Prevención, Análisis y Respuesta a Incidentes de Seguridad · 49h", "Mainjobs Internacional Educativa y Tecnológica, S.A.", "2025"],
-    ["Herramientas del Big Data y Gobierno del Dato · 60h", "Mainjobs Internacional Educativa y Tecnológica, S.A.", "2025"],
-    ["Desarrollo Web FullStack Development · 180h", "CEI: Centro de estudios de Diseño, Marketing y Nuevas Tecnologías", "2024-2025"],
-    ["Titulación Superior de Música en la especialidad de Violoncello", "Conservatorio Superior de Música de Navarra", "2017-2021"],
-    ["Título de Bachillerato", "IES Torre de los Espejos", "2012-2015"],
-    ["Titulación de Grado Medio de Música en la especialidad de Violoncello", "Conservatorio Profesional de Música de Zaragoza", "2010-2016"],
-  ];
-  const workRecords: [string, string, string, string[]][] = [
-    ["Departamento IT", "Belsué Mediación de Seguros", "actualidad", ["belsue.es: diseño y desarrollo de la web corporativa, con catálogo de seguros, asistencias por compañía y contacto", "Blog autogestionable: panel propio de publicación (tipo CMS) para que el equipo suba noticias sin tocar una línea de código", "CorreSeguro: web para contratar un seguro de runners online en 7 pasos, con un chat con IA abierto 24/7", "BelChat: WhatsApp Business convertido en un sistema de tickets con IA y un panel de atención en tiempo real", "El Formador: asistente interno que reúne productos, compañías y cotizaciones citando siempre sus fuentes", "Soporte técnico: resolución de incidencias del día a día para que nadie se quede parado", "Formación a usuarios: acompaño al equipo para que saque partido a las herramientas nuevas"]],
-    ["Profesora de música", "Guardería Pequeños Venecianos, Centro San Gabriel de Zuera, colegios Julián Nieto Tapia, Jerónimo Blancas, Nuestra Señora del Huerto y Escuela Kithara (Pamplona).", "docencia", ["Clases de música a niños de infantil y primaria", "Diseño de actividades lúdicas y pedagógicas"]],
-    ["Música y arte", "Violonchelista en OSN, Joven Orquesta de Pamplona, OSCZ y otras formaciones.", "creatividad", ["Colaboraciones con Raphael, Pablo López y Sôber", "Duo Dídyma: composición, grabación e ilustración", "Autora e ilustradora de Mimi y Fafa, las exploradoras de la música"]],
-  ];
-  const folderDetails: Record<string, { label: string; detail: string; items: string[] }> = {
-    "sobre-mi": { label: "sobre-mi", detail: "perfil y contexto personal", items: ["Cecilia Ferraz Fernández", "DAM · Salesianos Zaragoza", "Belsué Mediación de Seguros"] },
-    formacion: { label: "formacion-academica", detail: "aprendizaje en expansión", items: ["DAM · En curso", "Ciberseguridad · 2025", "Big Data · 2025", "FullStack · 2024-2025"] },
-    experiencia: { label: "experiencia-laboral", detail: "problemas reales, soluciones reales", items: ["Departamento IT", "Profesora de música", "Música y arte"] },
-  };
+  }, [profileText]);
+  const academicRecords = t.about.academic;
+  const workRecords = t.about.work;
+  const folderDetails: Record<string, { label: string; detail: string; items: string[] }> = t.about.folders;
   const currentFolder = folderDetails[selectedFolder];
   // La carpeta se aplasta y se estira (efecto elástico) y, en el pico del estirón, sale la ventana.
   const openAbout = () => {
@@ -219,38 +207,41 @@ export default function Home() {
   return (
     <MotionConfig reducedMotion="user">
     <main className={loaderPhase === "loading" ? "is-loading" : undefined}>
-      {loaderPhase !== "done" && <><div className={`site-loader is-${loaderPhase}`} suppressHydrationWarning role="progressbar" aria-label="Cargando portfolio" aria-valuemin={0} aria-valuemax={100} aria-valuenow={loaderPercent}>
+      {loaderPhase !== "done" && <><div className={`site-loader is-${loaderPhase}`} suppressHydrationWarning role="progressbar" aria-label={t.loader.label} aria-valuemin={0} aria-valuemax={100} aria-valuenow={loaderPercent}>
         <div className="loader-window">
           <div className="loader-titlebar"><span>jukebox.exe</span><span className="loader-controls" aria-hidden="true"><i className="ctl-min" /><i className="ctl-max" /><i>x</i></span></div>
           <div className="loader-body">
             <JukeboxMark size={150} className="loader-mark" title="Jukeboxdev" />
             <span className="jukebox-logo loader-logo"><span className="jukebox-logo-word">JUKEBOX</span><span className="jukebox-logo-badge">dev</span></span>
             <div className="loader-bar" aria-hidden="true">{Array.from({ length: 8 }, (_, i) => <span key={i} className={loaderProgress >= (i + 1) * 12.5 ? "is-on" : undefined} />)}</div>
-            <div className="loader-meta">cargando proyectos... {loaderPercent}%</div>
+            <div className="loader-meta">{t.loader.meta} {loaderPercent}%</div>
           </div>
         </div>
       </div>
       <script dangerouslySetInnerHTML={{ __html: `try{if(sessionStorage.getItem("loader-seen")==="1"||matchMedia("(prefers-reduced-motion: reduce)").matches)document.currentScript.previousElementSibling.style.display="none"}catch(e){}` }} /></>}
-      <nav className="site-nav" aria-label="Navegación principal">
-        <a className="brand" href="#top" aria-label="Jukeboxdev · inicio"><JukeboxLogo /></a>
+      <nav className="site-nav" aria-label={t.nav.label}>
+        <a className="brand" href="#top" aria-label={t.nav.brand}><JukeboxLogo /></a>
         <div className="nav-links">
-          <a href="#sobre-mi" onClick={(event) => { event.preventDefault(); openAbout(); }}>Sobre mí</a>
-          <a href="#proyectos">Proyectos</a>
-          <a href="#contacto">Hablemos <span aria-hidden="true"><ArrowUpRight /></span></a>
+          <a href="#sobre-mi" onClick={(event) => { event.preventDefault(); openAbout(); }}>{t.nav.about}</a>
+          <a href="#proyectos">{t.nav.projects}</a>
+          <a href="#contacto">{t.nav.contact} <span aria-hidden="true"><ArrowUpRight /></span></a>
+          <div className="lang-switch" role="group" aria-label={t.nav.language}>
+            {(["es", "en"] as const).map((code) => <button key={code} type="button" lang={code} aria-label={code === "es" ? "Español" : "English"} aria-pressed={locale === code} onClick={() => setLocale(code)}>{code.toUpperCase()}</button>)}
+          </div>
         </div>
       </nav>
 
       <section className="hero section-shell" id="top">
         <div className="hero-copy reveal-up">
-          <p className="eyebrow"><span className="status-dot" /> Estudiante DAM + builder en Zaragoza</p>
-          <h1><span className="hero-name"><span className="name-underline"><span>Cecilia </span><span>Ferraz </span><span>Fernández</span></span></span><span className="hero-tagline">Programo soluciones para <em>problemas reales.</em></span></h1>
-          <p className="hero-intro">Soy Cecilia. Desarrollo herramientas, asistentes y productos digitales con curiosidad, criterio y una obsesión bastante sencilla: hacer que las cosas funcionen y que el trabajo sea un poco más fácil.</p>
+          <p className="eyebrow"><span className="status-dot" /> {t.hero.eyebrow}</p>
+          <h1><span className="hero-name"><span className="name-underline"><span>Cecilia </span><span>Ferraz </span><span>Fernández</span></span></span><span className="hero-tagline">{t.hero.taglineLead} <em>{t.hero.taglineEm}</em></span></h1>
+          <p className="hero-intro">{t.hero.intro}</p>
           <div className="hero-actions">
-            <a className="text-link" href="#contacto">Cuéntame una idea <span aria-hidden="true"><ArrowUpRight /></span></a>
+            <a className="text-link" href="#contacto">{t.hero.idea} <span aria-hidden="true"><ArrowUpRight /></span></a>
           </div>
         </div>
-        <div className="hero-folder-slot reveal-up"><div className={`folder-gate ${aboutOpen ? "is-away" : ""}`}><span className="gate-kicker">01 / CONTEXTO</span>{/* Solo puede haber un elemento con layoutId montado: mientras la ventana está abierta, la carpeta deja un hueco del mismo tamaño */}{aboutOpen ? <div className="folder-morph folder-placeholder" aria-hidden="true" /> : <motion.div layoutId="about-window" className="folder-morph" transition={aboutCloseTransition}><button ref={folderButtonRef} className={`floating-folder ${folderLaunching ? "is-launching" : ""}`} onClick={openAbout} aria-haspopup="dialog" aria-expanded={aboutOpen} aria-label="Abrir carpeta Sobre mí"><span className="folder-tab" /><span className="folder-papers" aria-hidden="true"><i /><i /></span><span className="folder-label">sobre-mi</span><span className="folder-subtitle">haz click para abrir</span><span className="folder-arrow"><ArrowUpRight /></span></button></motion.div>}<p className="gate-hint">aquí dentro hay más de una historia</p></div>{aboutOpen && <div className="open-folder-state"><span className="gate-kicker">01 / ABIERTA</span><a className="open-folder" href="#sobre-mi" aria-label="Ir a la carpeta Sobre mí abierta"><span className="open-folder-back" /><span className="open-folder-paper" aria-hidden="true"><i /><i /><i /><i /></span><span className="open-folder-front"><span className="folder-label">sobre-mi</span><span className="folder-subtitle">abierta · sigue leyendo abajo ↓</span></span></a><p className="gate-hint">la estás leyendo ahora mismo</p></div>}</div>
-        <div className="hero-cta reveal-up"><span className="cta-hint">psst… empieza por aquí</span><a className={`button button-primary projects-launch ${projectsTransition === "covering" ? "is-launching" : ""}`} href="#proyectos" onClick={goToProjects}>Ver lo que estoy haciendo <span aria-hidden="true">↓</span></a></div>
+        <div className="hero-folder-slot reveal-up"><div className={`folder-gate ${aboutOpen ? "is-away" : ""}`}><span className="gate-kicker">{t.hero.marker}</span>{/* Solo puede haber un elemento con layoutId montado: mientras la ventana está abierta, la carpeta deja un hueco del mismo tamaño */}{aboutOpen ? <div className="folder-morph folder-placeholder" aria-hidden="true" /> : <motion.div layoutId="about-window" className="folder-morph" transition={aboutCloseTransition}><button ref={folderButtonRef} className={`floating-folder ${folderLaunching ? "is-launching" : ""}`} onClick={openAbout} aria-haspopup="dialog" aria-expanded={aboutOpen} aria-label={t.hero.openFolderLabel}><span className="folder-tab" /><span className="folder-papers" aria-hidden="true"><i /><i /></span><span className="folder-label">{t.hero.folderName}</span><span className="folder-subtitle">{t.hero.folderHint}</span><span className="folder-arrow"><ArrowUpRight /></span></button></motion.div>}<p className="gate-hint">{t.hero.gateHint}</p></div>{aboutOpen && <div className="open-folder-state"><span className="gate-kicker">{t.hero.openMarker}</span><a className="open-folder" href="#sobre-mi" aria-label={t.hero.openFolderGoto}><span className="open-folder-back" /><span className="open-folder-paper" aria-hidden="true"><i /><i /><i /><i /></span><span className="open-folder-front"><span className="folder-label">{t.hero.folderName}</span><span className="folder-subtitle">{t.hero.openFolderHint}</span></span></a><p className="gate-hint">{t.hero.openGateHint}</p></div>}</div>
+        <div className="hero-cta reveal-up"><span className="cta-hint">{t.hero.cta}</span><a className={`button button-primary projects-launch ${projectsTransition === "covering" ? "is-launching" : ""}`} href="#proyectos" onClick={goToProjects}>{t.hero.ctaButton} <span aria-hidden="true">↓</span></a></div>
       </section>
 
 
@@ -258,27 +249,27 @@ export default function Home() {
       </section>
 
       <section className={`projects section-shell ${projectsTransition === "revealing" ? "is-arriving" : ""}`} id="proyectos">
-        <div className="section-heading"><div className="section-marker">02 / LO QUE HAGO</div><h2>Proyectos <em>propios.</em></h2><p className={`heading-note ${noteStuck ? "is-stuck" : ""}`}>Algunos nacieron de una necesidad real, otros de la curiosidad.</p></div>
+        <div className="section-heading"><div className="section-marker">{t.projects.marker}</div><h2>{t.projects.titleLead} <em>{t.projects.titleEm}</em></h2><p className={`heading-note ${noteStuck ? "is-stuck" : ""}`}>{t.projects.note}</p></div>
         <ProjectsBoard />
       </section>
 
-      <section className="concept section-shell"><IdeaPad><div className="concept-copy"><div className="section-marker">03 / IDEAS Y CONCEPTOS</div><h2>Cosas que se<br /><em>están cocinando.</em></h2><p>Ideas que todavía no son proyecto, pero no dejan de dar vueltas. Arranca las hojas del taco para verlas.</p><div className="concept-stamp">EN EL<br />HORNO</div></div></IdeaPad></section>
+      <section className="concept section-shell"><IdeaPad><div className="concept-copy"><div className="section-marker">{t.ideas.marker}</div><h2>{t.ideas.titleLead}<br /><em>{t.ideas.titleEm}</em></h2><p>{t.ideas.text}</p><div className="concept-stamp">{t.ideas.stampTop}<br />{t.ideas.stampBottom}</div></div></IdeaPad></section>
 
-      <section className="skills section-shell"><div className="section-marker">04 / MI CAJA DE HERRAMIENTAS</div><div className="skills-grid"><div><h2>Las herramientas<br /><em>son el medio.</em></h2><p className="skills-intro">Un stack que crece conmigo: de la interfaz a los datos, pasando por la infraestructura que hace que todo aguante.</p></div><div className="skill-groups">{skillGroups.map((group) => <div className="skill-group" key={group.label}><span className="skill-group-label">{group.label}</span><div className="skill-cloud">{group.skills.map(([name, tone, large]) => <span className={`skill-pill ${tone}-pill${large ? " large" : ""}`} key={name}>{name}</span>)}</div></div>)}</div></div></section>
+      <section className="skills section-shell"><div className="section-marker">{t.skills.marker}</div><div className="skills-grid"><div><h2>{t.skills.titleLead}<br /><em>{t.skills.titleEm}</em></h2><p className="skills-intro">{t.skills.intro}</p></div><div className="skill-groups">{skillGroups.map((group) => <div className="skill-group" key={group.key}><span className="skill-group-label">{t.skills.labels[group.key]}</span><div className="skill-cloud">{("skills" in group ? group.skills : group.tones.map((tone, index): Pill => [t.skills[group.key][index], tone])).map(([name, tone, large]) => <span className={`skill-pill ${tone}-pill${large ? " large" : ""}`} key={name}>{name}</span>)}</div></div>)}</div></div></section>
 
-      <section className="contact section-shell" id="contacto"><div className="contact-copy"><div className="section-marker">05 / CONTACTO</div><h2>¿Tienes una idea<br />dando vueltas?</h2><p>Me encantan los problemas concretos, las conversaciones con café y las ideas que todavía no tienen nombre.</p><div className="contact-links"><a href="mailto:ceciliaferrazfm@gmail.com"><span>✉</span> ceciliaferrazfm@gmail.com <b><ArrowUpRight /></b></a><a href="https://www.linkedin.com/in/cecilia-ferraz-fern%C3%A1ndez-31966b305/" target="_blank" rel="noreferrer"><span>in</span> LinkedIn <b><ArrowUpRight /></b></a></div></div><TabletContact /></section>
+      <section className="contact section-shell" id="contacto"><div className="contact-copy"><div className="section-marker">{t.contact.marker}</div><h2>{t.contact.titleLead}<br />{t.contact.titleTail}</h2><p>{t.contact.text}</p><div className="contact-links"><a href="mailto:ceciliaferrazfm@gmail.com"><span>✉</span> ceciliaferrazfm@gmail.com <b><ArrowUpRight /></b></a><a href="https://www.linkedin.com/in/cecilia-ferraz-fern%C3%A1ndez-31966b305/" target="_blank" rel="noreferrer"><span>in</span> LinkedIn <b><ArrowUpRight /></b></a></div></div><TabletContact /></section>
 
-      <footer><span>Hecho con curiosidad y demasiadas pestañas abiertas.</span><span className="footer-brand"><JukeboxMarkSmall size={14} /> jukeboxdev · © 2026 Ceci</span></footer>
-      {projectsTransition !== "idle" && <div className={`page-wipe is-${projectsTransition}`} aria-hidden="true">{projectsTransition === "revealing" ? pleatColors.map((color, index) => <i className="pleat" key={index} style={{ background: `var(--${color})` }} />) : <><i /><i /><i /><i /></>}<span>02 / proyectos ↓</span></div>}
+      <footer><span>{t.footer.text}</span><span className="footer-brand"><JukeboxMarkSmall size={14} /> jukeboxdev · © 2026 Ceci</span></footer>
+      {projectsTransition !== "idle" && <div className={`page-wipe is-${projectsTransition}`} aria-hidden="true">{projectsTransition === "revealing" ? pleatColors.map((color, index) => <i className="pleat" key={index} style={{ background: `var(--${color})` }} />) : <><i /><i /><i /><i /></>}<span>{t.projects.wipe}</span></div>}
       <AnimatePresence onExitComplete={() => folderButtonRef.current?.focus({ preventScroll: true })}>{aboutOpen && <div key="about-modal" className="about-modal">
         <motion.div className="about-backdrop" onClick={closeAbout} initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.3 } }} exit={{ opacity: 0, transition: { duration: 0.25 } }} />
-        <motion.div layoutId="about-window" className="file-explorer" role="dialog" aria-modal="true" aria-label="Sobre mí" transition={aboutOpenTransition} style={{ boxShadow: "10px 10px 0 #1d9089" }}>
+        <motion.div layoutId="about-window" className="file-explorer" role="dialog" aria-modal="true" aria-label={t.about.dialogLabel} transition={aboutOpenTransition} style={{ boxShadow: "10px 10px 0 #1d9089" }}>
         <motion.div className="explorer-inner" initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.14, duration: 0.2 } }} exit={{ opacity: 0, transition: { duration: 0.08 } }}>
-          <div className="explorer-topbar"><div className="window-dots"><i /><i /><i /></div><span>ceci / sobre-mi</span><button className="minimize-button" onClick={closeAbout} aria-label="Minimizar explorador">−</button></div>
+          <div className="explorer-topbar"><div className="window-dots"><i /><i /><i /></div><span>{t.about.topbar}</span><button className="minimize-button" onClick={closeAbout} aria-label={t.about.minimize}>−</button></div>
           <div className="explorer-path"><span>⌂</span><span>portfolio</span><b>/</b><strong>{currentFolder.label}</strong></div>
           <div className="explorer-body">
-            <aside className="explorer-sidebar"><span className="explorer-label">MIS CARPETAS</span>{Object.keys(folderDetails).map((folder) => <button className={`folder ${folder === selectedFolder ? "active-folder" : ""}`} key={folder} onClick={() => setSelectedFolder(folder)} aria-pressed={folder === selectedFolder}>{folder === selectedFolder ? "▾" : "▸"}<span>{folderDetails[folder].label}</span></button>)}<span className="explorer-label explorer-label-bottom">ESTADO</span><div className="explorer-status"><i /> disponible para crear</div></aside>
-            <div className={`explorer-content folder-${selectedFolder}`}><div className="explorer-content-heading"><div><span className="section-marker">01 / CONTEXTO</span></div><div className="file-meta">{selectedFolder === "formacion" ? academicRecords.length : selectedFolder === "experiencia" ? workRecords.length : currentFolder.items.length} elementos<br />abierto ahora</div></div><div className="about-origin"><span>carpeta abierta</span><strong>{currentFolder.label}</strong></div><div className="folder-preview"><div><span className="preview-icon">⌂</span><div><strong>{currentFolder.label}</strong><small>{currentFolder.detail}</small></div></div><div className="preview-items">{currentFolder.items.map((item) => <span key={item}>▹ {item}</span>)}</div></div>{selectedFolder === "formacion" && <div className="education-list">{academicRecords.map(([title, school, period]) => <article key={title}><span className="education-period">{period}</span><div><strong>{title}</strong><small>{school}</small></div></article>)}</div>}{selectedFolder === "experiencia" && <div className="education-list work-list">{workRecords.map(([title, place, period, tasks]) => <article key={title}><span className="education-period">{period}</span><div><strong>{title}</strong><small>{place}</small><ul>{tasks.map((task) => { const cut = task.indexOf(": "); return <li key={task}>{cut > 0 ? <><b>{task.slice(0, cut)}</b>{task.slice(cut)}</> : task}</li>; })}</ul></div></article>)}</div>}<div className="roadmap" aria-label="Recorrido personal y profesional"><div className="roadmap-track" /><div className="roadmap-stop stop-one"><span className="roadmap-pin">01</span><div className="roadmap-card"><small>2023</small><strong>Empiezo DAM</strong><span>primer checkpoint</span></div></div><div className="roadmap-stop stop-two"><span className="roadmap-pin">02</span><div className="roadmap-card"><small>2024</small><strong>Me uno a Belsué</strong><span>el mundo real aparece</span></div></div><div className="roadmap-stop stop-now"><span className="roadmap-pin">✦</span><div className="roadmap-card"><small>AHORA</small><strong>Construyo, aprendo y pruebo</strong><span className="now-label">en movimiento</span></div></div><span className="roadmap-end">siguiente capítulo →</span></div><div className="about-text"><p className="typewriter-text" aria-label={profileText}>{profileText.slice(0, typedCharacters)}<span className="typewriter-cursor" aria-hidden="true" /></p></div></div>
+            <aside className="explorer-sidebar"><span className="explorer-label">{t.about.sidebarLabel}</span>{Object.keys(folderDetails).map((folder) => <button className={`folder ${folder === selectedFolder ? "active-folder" : ""}`} key={folder} onClick={() => setSelectedFolder(folder)} aria-pressed={folder === selectedFolder}>{folder === selectedFolder ? "▾" : "▸"}<span>{folderDetails[folder].label}</span></button>)}<span className="explorer-label explorer-label-bottom">{t.about.statusLabel}</span><div className="explorer-status"><i /> {t.about.status}</div></aside>
+            <div className={`explorer-content folder-${selectedFolder}`}><div className="explorer-content-heading"><div><span className="section-marker">{t.about.marker}</span></div><div className="file-meta">{selectedFolder === "formacion" ? academicRecords.length : selectedFolder === "experiencia" ? workRecords.length : currentFolder.items.length} {t.about.itemsCount}<br />{t.about.openNow}</div></div><div className="about-origin"><span>{t.about.openedFolder}</span><strong>{currentFolder.label}</strong></div><div className="folder-preview"><div><span className="preview-icon">⌂</span><div><strong>{currentFolder.label}</strong><small>{currentFolder.detail}</small></div></div><div className="preview-items">{currentFolder.items.map((item) => <span key={item}>▹ {item}</span>)}</div></div>{selectedFolder === "formacion" && <div className="education-list">{academicRecords.map(([title, school, period]) => <article key={title}><span className="education-period">{period}</span><div><strong>{title}</strong><small>{school}</small></div></article>)}</div>}{selectedFolder === "experiencia" && <div className="education-list work-list">{workRecords.map(({ title, place, period, tasks }) => <article key={title}><span className="education-period">{period}</span><div><strong>{title}</strong><small>{place}</small><ul>{tasks.map((task) => { const cut = task.indexOf(": "); return <li key={task}>{cut > 0 ? <><b>{task.slice(0, cut)}</b>{task.slice(cut)}</> : task}</li>; })}</ul></div></article>)}</div>}<div className="roadmap" aria-label={t.about.roadmap.label}><div className="roadmap-track" /><div className="roadmap-stop stop-one"><span className="roadmap-pin">01</span><div className="roadmap-card"><small>{t.about.roadmap.start.year}</small><strong>{t.about.roadmap.start.title}</strong><span>{t.about.roadmap.start.note}</span></div></div><div className="roadmap-stop stop-two"><span className="roadmap-pin">02</span><div className="roadmap-card"><small>{t.about.roadmap.belsue.year}</small><strong>{t.about.roadmap.belsue.title}</strong><span>{t.about.roadmap.belsue.note}</span></div></div><div className="roadmap-stop stop-now"><span className="roadmap-pin">✦</span><div className="roadmap-card"><small>{t.about.roadmap.now.year}</small><strong>{t.about.roadmap.now.title}</strong><span className="now-label">{t.about.roadmap.now.note}</span></div></div><span className="roadmap-end">{t.about.roadmap.next}</span></div><div className="about-text"><p className="typewriter-text" aria-label={profileText}>{profileText.slice(0, typedCharacters)}<span className="typewriter-cursor" aria-hidden="true" /></p></div></div>
           </div>
         </motion.div>
         </motion.div>
